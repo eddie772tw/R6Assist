@@ -73,4 +73,4 @@ python main.py
 *   建議在「無邊框視窗 (Borderless Window)」模式下運行遊戲，以確保截圖工具正常運作。
 
 ## 授權
-MIT License
+GPLv3 License
