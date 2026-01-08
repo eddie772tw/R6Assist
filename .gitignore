@@ -39,5 +39,5 @@ screenshot/
 
 # Datasets and Generated Assets (Uncomment if these should be tracked)
 dataset/
-# processed_icons/
-# raw_icons/
+processed_icons/
+raw_icons/
