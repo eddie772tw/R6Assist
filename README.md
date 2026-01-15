@@ -23,7 +23,7 @@
 
 1.  **複製專案**
     ```bash
-    git clone https://github.com/yourusername/R6Assist.git
+    git clone https://github.com/eddie772tw/R6Assist.git
     cd R6Assist
     ```
 
