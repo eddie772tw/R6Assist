@@ -27,9 +27,9 @@ class TacticalAdvisor:
             # 進攻方權重
             "Breach": 8,       # 切牆/破壞地形 (進攻核心)
             "Anti-Gadget": 7,  # 清除電網/干擾器 (輔助切牆)
-            "Intel": 5,        # 情資 (無人機/掃描)
+            "Intel": 6,        # 情資 (無人機/掃描)
             "Support": 3,      # 輔助 (煙霧/補血/護盾)
-            "Front Line": 2,   # 槍線/突破手 (通常大家都會搶著選，所以權重放低)
+            "Front Line": 4,   # 槍線/突破手 (通常大家都會搶著選，所以權重放低)
             "Map Control": 3,  # 區域控制
             
             # 防守方權重
@@ -37,6 +37,11 @@ class TacticalAdvisor:
             "Trapper": 6,      # 陷阱 (削減血量/情資)
             "Crowd Control": 5,# 群體控制 (Echo/Melusi)
             # 防守方的 Intel/Anti-Gadget/Support 沿用上方設定
+        }
+
+        # 防守方特定職能權重覆寫 (若需要與進攻方不同)
+        self.def_role_overrides = {
+            "Anti-Gadget": 6,
         }
 
         # === 邊際效益遞減設定 ===
@@ -54,10 +59,10 @@ class TacticalAdvisor:
         try:
             with open(path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-            print(f"✅ 戰術顧問已就緒 (載入 {len(data)} 位幹員資料)")
+            print(f"Tactical Advisor Ready (Loaded {len(data)} operators)")
             return data
         except Exception as e:
-            print(f"❌ 資料庫載入失敗: {e}")
+            print(f"DB Load Failed: {e}")
             return {}
 
     def analyze_team_composition(self, current_team_names):
@@ -128,6 +133,10 @@ class TacticalAdvisor:
             for role in op_roles:
                 # 取得該職能的基礎權重 (預設 1 分)
                 base_weight = self.role_weights.get(role, 2)
+                
+                # 防守方權重覆寫
+                if side == "def" and role in self.def_role_overrides:
+                    base_weight = self.def_role_overrides[role]
                 
                 # 檢查隊伍目前有幾個人已經有這個職能了
                 existing_count = current_roles[role]
@@ -206,6 +215,9 @@ class TacticalAdvisor:
                 temp_total = 0
                 for role in op_roles:
                     base = self.role_weights.get(role, 2)
+                    if side == "def" and role in self.def_role_overrides:
+                        base = self.def_role_overrides[role]
+
                     exist = current_roles_count[role]
                     decay = self.diminishing_returns[min(exist, len(self.diminishing_returns)-1)]
                     temp_total += base * decay
