@@ -18,6 +18,8 @@ import os
 import cv2
 import numpy as np
 import sys
+import keyboard
+import threading
 try:
     import dxcam
     HAS_DXCAM = True
@@ -27,6 +29,7 @@ except ImportError:
 
 # 引入核心模組
 from main import R6TacticalAssistant
+from collector import DataCollector
 
 class GameMonitor:
     def __init__(self, target_fps=2):
@@ -38,9 +41,24 @@ class GameMonitor:
         # 注意：這裡會呼叫 R6TacticalAssistant 的 init，確保 analyzer 和 advisor 都就緒
         self.assistant = R6TacticalAssistant(None)
         
+        # 初始化資料收集器
+        self.collector = DataCollector()
+        
         # 狀態快取 (State Cache)
         self.last_team_str = ""  # 用字串來比對陣容是否變化
         self.last_side = None
+        self.notification = ""
+        self.notification = ""
+        self.notification = ""
+        self.notification_end_time = 0
+        self.cached_results = None # 暫存分析結果，供靜態畫面下的截圖使用
+        
+        # 設定按鍵觸發 (避免 polling 漏接)
+        self.request_screenshot_flag = False
+        try:
+            keyboard.add_hotkey('f10', self._on_f10_press)
+        except Exception as e:
+            print(f"⚠️ 無法註冊 F10 熱鍵: {e} (可能需要系統管理員權限)")
         
         # 設定截圖工具
         self.use_dxcam = False
@@ -63,6 +81,10 @@ class GameMonitor:
             self.res_h = self.monitor['height']
             if not HAS_DXCAM:
                 print("ℹ️  提示: 未檢測到 dxcam，建議執行 `pip install dxcam` 以提升效能") 
+
+    def _on_f10_press(self):
+        """F10 按下時的回呼函數 (由 keyboard thread 執行)"""
+        self.request_screenshot_flag = True
 
     def clear_console(self):
         """
@@ -90,7 +112,8 @@ class GameMonitor:
             return
 
         user_pick = team_names[0]
-        teammates = team_names[1:]
+        # 轉換為視覺橫向順序 (由左至右)
+        teammates = team_names[1:][::-1]
 
         # 2. 判斷陣營
         side = self.assistant.determine_side(team_names)
@@ -117,7 +140,7 @@ class GameMonitor:
         self.print_line(f"👥 隊友陣容: {', '.join(teammates)}")
         
         # 顯示缺口
-        missing = self.assistant.advisor.get_missing_roles(teammates, side)
+        missing = self.assistant.advisor.get_missing_roles(team_names, side)
         if missing:
             self.print_line(f"⚠️  隊伍缺乏: {', '.join(missing)}")
         else:
@@ -161,9 +184,17 @@ class GameMonitor:
             else:
                 self.print_line("") # 清除多餘行
 
+        # 顯示暫時性通知 (例如存檔成功)
+        if self.notification and time.time() < self.notification_end_time:
+            self.print_line(f"\n🔔 訊息: {self.notification}")
+        else:
+            self.print_line("\n") # 空行佔位
+
         self.print_line(f"\n{'='*40}")
         self.print_line("按 Ctrl+C 停止監控...                   ")
         
+        # 清除游標以下的所有內容，確保不會有殘留的舊訊息 (例如手動歸檔的提示)
+        sys.stdout.write("\033[J")
         sys.stdout.flush()
 
     def run(self):
@@ -187,25 +218,48 @@ class GameMonitor:
                     img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
 
                 # 2. 智慧畫面偵測 (減少不必要的運算)
-                # 計算與上一禎的差異，只有畫面變動時才重新分析
+                frame_changed = True
                 if hasattr(self, 'last_frame') and self.last_frame is not None:
-                    # 縮小圖片以快速比較 (降低比較成本)
                     small_curr = cv2.resize(img, (64, 64))
                     small_last = cv2.resize(self.last_frame, (64, 64))
                     diff = cv2.absdiff(small_curr, small_last)
                     non_zero_count = np.count_nonzero(diff)
                     
-                    # 如果差異太小 (畫面靜止)，跳過本次分析 (節省 CPU)
-                    if non_zero_count < 100:  # 閾值可依需求調整
-                        self._wait_for_next_frame(start_time)
-                        continue
+                    if non_zero_count < 100:
+                        frame_changed = False
 
-                self.last_frame = img.copy()
-
-                # 3. 視覺辨識
-                team_names, _ = self.assistant.analyzer.analyze_screenshot(img)
+                # 3. 視覺辨識 & 更新暫存
+                if frame_changed:
+                    self.last_frame = img.copy()
+                    team_names, confidences, crop_images = self.assistant.analyzer.analyze_screenshot(img)
+                    self.cached_results = (team_names, confidences, crop_images)
                 
-                # 3. 永遠直接刷新畫面，不判斷是否變化 (因為是用原地刷新，成本很低)
+                # 若無有效數據 (例如剛啟動)，即使沒變動也無法做後續處理
+                if not self.cached_results:
+                     self._wait_for_next_frame(start_time)
+                     continue
+
+                # 取出當前數據 (可能是新的，也可能是快取的)
+                team_names, confidences, crop_images = self.cached_results
+
+                # 4. 偵測輸入 (F10 截圖) - 使用 flag 機制
+                force_update = False
+                if self.request_screenshot_flag:
+                    self.request_screenshot_flag = False # 重置 flag
+                    self.notification = "正在儲存當前對戰資料..."
+                    self.notification_end_time = time.time() + 2 # 顯示 2 秒
+                    self.collector.process_batch(crop_images, team_names, confidences)
+                    force_update = True
+
+                # 5. 決定是否刷新畫面
+                # 如果畫面靜止 且 沒有通知/強制刷新，則跳過 UI 更新以節省資源
+                has_active_notification = (self.notification and time.time() < self.notification_end_time)
+                
+                if not frame_changed and not force_update and not has_active_notification:
+                    self._wait_for_next_frame(start_time)
+                    continue
+
+                # 5. 永遠直接刷新畫面，不判斷是否變化 (因為是用原地刷新，成本很低)
                 # 這樣可以確保留下的文字不會卡住，且感覺更流暢
                 # 但為了效能，我們還是可以在這裡做一點小優化：如果完全沒變且已經畫過一次，可以跳過 Logic 計算
                 
@@ -220,8 +274,21 @@ class GameMonitor:
                      self.last_team_str = current_team_str
                 else:
                     # 選角畫面還沒出來，或過場中
-                    # 可以顯示一個簡單的 Waiting 動畫
-                    pass
+                    # 即使沒偵測到人，也刷新畫面顯示等待中，這樣可以確保通知訊息能正確顯示與消失
+                    self.clear_console()
+                    self.print_line(f"{'='*40}")
+                    self.print_line(f"🔴 R6 TACTICAL MONITOR | FPS: {self.target_fps}")
+                    self.print_line(f"{'='*40}")
+                    self.print_line("\n⏳ 等待選角畫面...")
+                    
+                    if self.notification and time.time() < self.notification_end_time:
+                         self.print_line(f"\n🔔 訊息: {self.notification}")
+                    else:
+                         self.print_line("\n")
+
+                    self.print_line(f"\n{'='*40}")
+                    sys.stdout.write("\033[J")
+                    sys.stdout.flush()
                 
                 self._wait_for_next_frame(start_time)
 

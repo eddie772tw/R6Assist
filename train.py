@@ -17,6 +17,35 @@ import os
 import sys
 from ultralytics import YOLO
 
+def find_latest_model(base_dir):
+    """
+    尋找最新的訓練模型作為 Fine-tuning 的基底
+    """
+    runs_dir = os.path.join(base_dir, "runs", "classify")
+    best_run_path = None
+    max_run_num = -1
+    
+    if os.path.exists(runs_dir):
+        for dirname in os.listdir(runs_dir):
+            if dirname.startswith("r6_operator_classifier"):
+                # 解析版本號
+                suffix = dirname.replace("r6_operator_classifier", "")
+                if suffix == "":
+                    run_num = 1
+                elif suffix.isdigit():
+                    run_num = int(suffix)
+                else:
+                    continue
+                
+                # 檢查該資料夾內是否有 best.pt
+                candidate_weights = os.path.join(runs_dir, dirname, "weights", "best.pt")
+                if os.path.exists(candidate_weights):
+                    if run_num > max_run_num:
+                        max_run_num = run_num
+                        best_run_path = candidate_weights
+    
+    return best_run_path
+
 def main():
     # 確保可以在目前目錄找到 dataset
     # 根據之前的檔案列表，dataset 資料夾位於此 script 同層
@@ -34,9 +63,20 @@ def main():
 
     print(f"Start training with dataset at: {dataset_path}")
 
+    # 嘗試尋找舊模型進行 Fine-tuning
+    latest_model = find_latest_model(base_dir)
+    if latest_model:
+        print(f"🔄 偵測到先前的模型: {latest_model}")
+        print("🚀 將進行 Fine-tuning (微調訓練 / 增量學習)...")
+        # 這裡會自動處理類別數量的變化：
+        # 如果新資料集有新角色，YOLO 會自動替換最後一層分類層，保留 Backbone 權重
+        model_name = latest_model
+    else:
+        print("🆕 未偵測到舊模型，將使用 YOLOv8n-cls 進行全新訓練...")
+        model_name = 'yolov8n-cls.pt'
+
     # 載入預訓練模型
-    # yolov8n-cls.pt 使用最輕量的 Nano 分類模型
-    model = YOLO('yolov8n-cls.pt') 
+    model = YOLO(model_name)
 
     # 開始訓練
     # epochs=20 訓練 20 輪通常就足夠收斂了

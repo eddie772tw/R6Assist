@@ -112,13 +112,14 @@ class R6TacticalAssistant:
         
         if len(team_names) >= 1:
             user_pick = team_names[0]
-            teammates = team_names[1:]
+            # 轉換為視覺橫向順序 (由左至右)，即反轉原本由右至左的偵測順序
+            teammates = team_names[1:][::-1]
         else:
             user_pick = "Unknown"
             teammates = []
 
         print(f"👤 使用者目前選擇 (最右): {user_pick}")
-        print(f"👥 隊友陣容 (其餘四人): {teammates}")
+        print(f"👥 隊友陣容 (由左至右): {teammates}")
         
         # 分析隊伍缺口
         missing_roles = self.advisor.get_missing_roles(teammates, side)
@@ -217,9 +218,12 @@ if __name__ == "__main__":
         print(f"警告：找不到 screenshot 資料夾: {screenshot_dir}")
         TEST_IMAGES = []
     else:
+        # Load all images from the screenshot directory
+        valid_extensions = ('.jpg', '.jpeg', '.png', '.bmp')
         TEST_IMAGES = [
-            os.path.join(screenshot_dir, "image_2.jpg"),
-            os.path.join(screenshot_dir, "25b7efbe-29c3-4b46-b29b-891e8150b441.jpg")
+            os.path.join(screenshot_dir, f) 
+            for f in os.listdir(screenshot_dir) 
+            if f.lower().endswith(valid_extensions)
         ]
 
     for img_path in TEST_IMAGES:
