@@ -160,7 +160,7 @@ class TeamAnalyzer:
             top1_conf = probs.top1conf.item()
             class_name = result.names[top1_index]
             
-            if top1_conf > 0.5:
+            if top1_conf > 0.8:
                 if "recruit" in class_name.lower():
                     clean_name = "Recruit"
                 else:
