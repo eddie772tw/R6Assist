@@ -26,7 +26,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 class R6StatsFetcher:
     def __init__(self, base_url="https://liquipedia.net/rainbowsix/Portal:Operators", output_file="op_stats.json"):
         self.base_url = base_url
-        self.output_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), output_file)
+        self.output_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), output_file)
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
             "Accept-Encoding": "gzip, deflate, br",

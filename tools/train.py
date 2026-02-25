@@ -49,7 +49,7 @@ def find_latest_model(base_dir):
 def main():
     # 確保可以在目前目錄找到 dataset
     # 根據之前的檔案列表，dataset 資料夾位於此 script 同層
-    base_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     dataset_path = os.path.join(base_dir, 'dataset')
     
     if not os.path.exists(dataset_path):

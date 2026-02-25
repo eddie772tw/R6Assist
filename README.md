@@ -1,76 +1,117 @@
+[English](README.md) | [繁體中文](README_zh-tw.md)
+
 # R6Assist - Rainbow Six Siege Tactical Assistant
 
-**R6Assist** 是一款專為《虹彩六號：圍攻行動》(Rainbow Six Siege) 設計的 AI 戰術助手。它利用電腦視覺技術即時監控選角畫面，辨識隊友選擇的幹員，並根據戰術邏輯推薦最佳的補位人選，協助您打造完美的團隊陣容。
+**R6Assist** is an AI tactical assistant designed specifically for *Rainbow Six Siege*. It uses computer vision technology to monitor the operator selection screen in real-time, recognizes the operators chosen by your teammates, and recommends the best picks based on tactical logic to help you build the perfect team composition.
 
-## ✨ 主要功能
+## ✨ Key Features
 
-*   **即時畫面監控**：自動偵測遊戲選角畫面，無需手動輸入。
-*   **AI 視覺辨識**：使用 YOLOv8 深度學習模型，精準辨識所有幹員圖標。
-*   **高效能截圖**：支援 `dxcam` (DirectX 高速截圖) 與 `mss`，確保低延遲與低資源佔用。
-*   **戰術建議引擎**：
-    *   自動判斷攻/守方陣營。
-    *   分析隊伍現有的職能缺口 (如：缺乏切牆、情報、補血等)。
-    *   提供即時的評分與換角建議。
+*   **Real-Time Monitoring**: Automatically detects the game selection screen without manual input.
+*   **AI Vision Recognition**: Uses the YOLOv8 deep learning model to accurately identify all operator icons.
+*   **Web-Based Tactical Dashboard (Web UI)**: A brand-new decoupled architecture providing a high-quality, graphical recommendation interface with real-time animations via the browser.
+*   **High-Performance Screen Capture**: Supports `dxcam` (DirectX high-speed capture) and `mss`, ensuring low latency and low resource consumption.
+*   **Tactical Recommendation Engine**:
+    *   Automatically determines the attack/defense phase.
+    *   Analyzes the team's missing roles (e.g., Hard Breach, Intel, Healing, etc.).
+    *   Provides real-time scoring and operator swap recommendations.
 
-## 🛠️ 安裝說明
+## 🛠️ Installation
 
-### 系統需求
+### System Requirements
 *   Windows 10/11
-*   Python 3.8 或以上版本
-*   建議使用 NVIDIA 顯示卡以獲得最佳 YOLO 推論效能 (需安裝 CUDA)
+*   Python 3.8 or above
+*   Node.js (for installing and running the Web UI frontend)
+*   NVIDIA Graphics Card recommended for optimal YOLO inference performance (CUDA installation required)
 
-### 安裝步驟
+### Steps
 
-1.  **複製專案**
+1.  **Clone the Repository**
     ```bash
     git clone https://github.com/eddie772tw/R6Assist.git
     cd R6Assist
     ```
 
-2.  **安裝依賴套件**
+2.  **Install Dependencies**
     ```bash
+    # Install Python backend dependencies (ensure flask, flask-socketio, eventlet, customtkinter are included)
     pip install -r requirements.txt
+    
+    # Install Web UI frontend dependencies
+    cd r6assist-webui
+    npm install
+    cd ..
     ```
 
-## 🚀 使用方法
+## 🚀 Usage
 
-### 1. 訓練或準備模型 (重要)
-本專案需要訓練好的 YOLOv8 分類模型才能運作。
-*   將訓練好的模型檔案放置於預設路徑 (通常會自動搜尋 `runs/classify/train/weights/best.pt`)。
-*   如果您還沒有模型，請參考 `generate_dataset.py` 與 `train.py` 自行收集資料並訓練。
+### 1. Train or Prepare the Model (Important)
+This project requires a trained YOLOv8 classification model to function.
+*   Place the trained model file in the default path (usually automatically searched at `runs/classify/train/weights/best.pt`).
+*   If you don't have a model yet, refer to `generate_dataset.py` and `train.py` to collect data and train it yourself.
 
-### 2. 啟動即時監控
-在遊戲運行並進入選角畫面時，執行以下指令：
+### 2. Start Real-Time Monitoring (Recommended: Use the GUI Launcher)
+
+The latest version provides a comprehensive graphical launcher. You can manage the frontend dashboard, backend API, and training tools entirely within a single window, and view all system logs without manually switching terminals.
+
+```bash
+python launcher.py
+```
+
+**(Or start it manually:)**
+
+**Step 1: Start the API Backend**
+```bash
+python api.py
+```
+
+**Step 2: Start the Web UI Frontend**
+(Open a new terminal)
+```bash
+cd r6assist-webui
+npm run dev
+```
+
+Open your browser and navigate to the local URL provided in the terminal (e.g., `http://localhost:5173/` or `http://localhost:5174/`). Once the game enters the operator selection screen, the webpage will automatically display the phase, team gaps, and graphical scoring recommendations in real-time.
+
+### 3. Use the Traditional Command-Line Interface (CLI)
+
+If you prefer viewing results in the command line (without opening a browser), you can run:
 
 ```bash
 python monitor.py
 ```
 
-程式將會：
-1.  自動抓取螢幕畫面。
-2.  在終端機 (Terminal) 顯示目前的陣容分析與建議。
-3.  按 `Ctrl+C` 可停止監控。
+The program will:
+1.  Automatically capture the screen.
+2.  Display the current composition analysis and recommendations in the Terminal.
+3.  Press `Ctrl+C` to stop monitoring.
 
-### 3. 單張圖片測試
-如果您想測試靜態圖片的辨識效果：
+### 4. Single Image Testing
+If you want to test the recognition performance on static images:
 
 ```bash
-python main.py
+python core/assistant.py
 ```
-(請確保 `screenshot/` 資料夾內有測試圖片)
+(Ensure there are test images inside the `screenshot/` folder)
 
-## 📁 專案結構
+## 📁 Project Structure
 
-*   `monitor.py`: 主程式，負責即時監控與互動介面。
-*   `main.py`: 核心邏輯封裝與單圖測試。
-*   `analyzer.py`: 視覺處理模組，負責影像前處理與 YOLO 推論。
-*   `logic.py`: 戰術邏輯模組，負責計算隊伍分數與推薦。
-*   `matcher_yolo.py`: YOLO 模型載入與預測實作。
-*   `op_stats.json`: 幹員資料庫，定義了每位幹員的陣營、職能與評分權重。
+*   `launcher.py`: Global graphical launcher for unified management of the Dashboard, CLI monitoring, and all development tools.
+*   `api.py`: Backend API responsible for screen analysis and real-time broadcasting via WebSockets.
+*   `monitor.py`: Main CLI script for text-based real-time monitoring and interaction.
+*   `r6assist-webui/`: Web frontend project (React + Vite) providing a graphical real-time tactical dashboard.
+*   `core/`:
+    *   `assistant.py`: Core logic encapsulation and single-image testing entry point.
+    *   `analyzer.py`: Vision processing module for image preprocessing and inference.
+    *   `logic.py`: Tactical logic module for calculating team scores and recommendations.
+    *   `matcher_yolo.py`: YOLO model loading and prediction implementation.
+    *   `collector.py`: Module for custom screen collection and data storage.
+*   `tools/`: Development auxiliary tools including training, dataset generation, and raw icon scraping (`generate_dataset.py`, `train.py`, `get_op_stat.py`, etc.).
+*   `op_stats.json`: Operator database defining the faction, role, and scoring weight of each operator.
 
-## ⚠️ 注意事項
-*   本工具僅使用視覺辨識 (OCR/Object Detection)，**不會**注入程式碼到遊戲記憶體，理論上不違反 BattlEye 規範，但使用風險請自行承擔。
-*   建議在「無邊框視窗 (Borderless Window)」模式下運行遊戲，以確保截圖工具正常運作。
+## ⚠️ Disclaimer
+*   This tool solely uses computer vision (OCR/Object Detection) and **does not** inject code into the game's memory. Theoretically, it does not violate BattlEye rules, but use it at your own risk.
+*   It is recommended to run the game in "Borderless Window" mode to ensure screen capture tools function properly.
 
-## 授權
+## License
 GPLv3 License

@@ -183,5 +183,6 @@ class R6IconDownloader:
             return False
 
 if __name__ == "__main__":
-    downloader = R6IconDownloader()
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    downloader = R6IconDownloader(output_dir=os.path.join(root_dir, "raw_icons"))
     downloader.run()

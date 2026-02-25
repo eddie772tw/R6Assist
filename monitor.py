@@ -28,8 +28,8 @@ except ImportError:
     import mss
 
 # 引入核心模組
-from main import R6TacticalAssistant
-from collector import DataCollector
+from core.assistant import R6TacticalAssistant
+from core.collector import DataCollector
 
 class GameMonitor:
     def __init__(self, target_fps=2):

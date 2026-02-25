@@ -1,0 +1,19 @@
+{
+    "connecting": "Connecting to R6Assist Core...",
+    "connection_lost": "Connection lost. Reconnecting...",
+    "attack": "ATTACK",
+    "defense": "DEFENSE",
+    "unknown": "UNKNOWN",
+    "phase": "PHASE",
+    "live_monitoring": "Live Monitoring",
+    "team_lacks": "Team lacks:",
+    "active_roster": "Active Roster",
+    "your_selection": "Your Selection",
+    "waiting": "Waiting...",
+    "score": "Score",
+    "teammates": "Teammates",
+    "tactical_recommendations": "Tactical Recommendations",
+    "optimal_choice": "OPTIMAL CHOICE",
+    "no_recommendations": "No recommendations available right now.",
+    "terminal": "R6Assist Terminal"
+}

@@ -1,0 +1,19 @@
+{
+    "connecting": "正在連線到 R6Assist 核心...",
+    "connection_lost": "連線中斷，正在重新連線...",
+    "attack": "進攻",
+    "defense": "防守",
+    "unknown": "未確認",
+    "phase": "階段",
+    "live_monitoring": "即時監控畫面",
+    "team_lacks": "隊伍缺乏角色:",
+    "active_roster": "確認隊伍陣容",
+    "your_selection": "您的選擇",
+    "waiting": "等待中...",
+    "score": "分數",
+    "teammates": "隊友",
+    "tactical_recommendations": "戰術幹員推薦",
+    "optimal_choice": "最佳選擇",
+    "no_recommendations": "現階段無可用推薦。",
+    "terminal": "R6Assist 戰術終端機"
+}

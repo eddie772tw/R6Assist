@@ -78,7 +78,7 @@ def draw_rois(image, rois, color, label_prefix):
 # --- 主程式開始 ---
 
 # 1. 設定你要測試的圖片目錄
-input_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "screenshot")
+input_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "screenshot")
 # 支援的副檔名
 extensions = ["*.png", "*.jpg", "*.jpeg"]
 image_paths = []

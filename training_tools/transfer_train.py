@@ -7,7 +7,7 @@ from ultralytics import YOLO
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
-    from matcher_yolo import MLOperatorMatcher
+    from core.matcher_yolo import MLOperatorMatcher
 except ImportError:
     # Fallback if specific file structure changes, but try to locate
     pass

@@ -19,9 +19,13 @@ import sys
 import numpy as np
 from collections import Counter
 
-# 引入我們寫好的模組
-from analyzer import TeamAnalyzer
-from logic import TacticalAdvisor
+# Add root directory to path to allow running directly
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from core.analyzer import TeamAnalyzer
+from core.logic import TacticalAdvisor
 
 class R6TacticalAssistant:
     def __init__(self, model_path, db_path="op_stats.json"):
@@ -198,8 +202,8 @@ class R6TacticalAssistant:
 # --- 程式入口點 ---
 if __name__ == "__main__":
     
-    # 取得目前檔案所在的目錄路徑 (解決不同執行位置導致的路徑錯誤)
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    # 取得專案根目錄路徑
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
     # 設定模型路徑 (請確認這指向你的 best.pt)
     # 如果你在 analyzer.py 裡寫過自動搜尋邏輯，這裡傳入 None 也可以

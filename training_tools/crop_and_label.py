@@ -10,8 +10,8 @@ import glob
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
-    from verify_roi import ROIConfig
-    from matcher_yolo import MLOperatorMatcher
+    from tools.verify_roi import ROIConfig
+    from core.matcher_yolo import MLOperatorMatcher
 except ImportError as e:
     print(f"Import Error: {e}")
     print("請確保此腳本位於 R6Assist/training_tools/ 目錄下，且專案結構完整。")
