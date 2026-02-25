@@ -51,8 +51,9 @@ This project requires a trained YOLOv8 classification model to function.
 
 ### 2. Start Real-Time Monitoring (Recommended: Use the GUI Launcher)
 
-The latest version provides a comprehensive graphical launcher. You can manage the frontend dashboard, backend API, and training tools entirely within a single window, and view all system logs without manually switching terminals.
+The easiest way to start the system is by double-clicking the **`R6Assist.exe`** executable file. This will open the graphical launcher where you can manage the frontend dashboard, backend API, and training tools entirely within a single window, and view all system logs without manually switching terminals.
 
+> *Alternatively, for developers, you can run the python script directly:*
 ```bash
 python launcher.py
 ```
@@ -107,7 +108,7 @@ python core/assistant.py
     *   `matcher_yolo.py`: YOLO model loading and prediction implementation.
     *   `collector.py`: Module for custom screen collection and data storage.
 *   `tools/`: Development auxiliary tools including training, dataset generation, and raw icon scraping (`generate_dataset.py`, `train.py`, `get_op_stat.py`, etc.).
-*   `op_stats.json`: Operator database defining the faction, role, and scoring weight of each operator.
+*   `data/op_stats.json`: Operator database defining the faction, role, and scoring weight of each operator.
 
 ## ⚠️ Disclaimer
 *   This tool solely uses computer vision (OCR/Object Detection) and **does not** inject code into the game's memory. Theoretically, it does not violate BattlEye rules, but use it at your own risk.

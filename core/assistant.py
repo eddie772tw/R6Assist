@@ -28,7 +28,7 @@ from core.analyzer import TeamAnalyzer
 from core.logic import TacticalAdvisor
 
 class R6TacticalAssistant:
-    def __init__(self, model_path, db_path="op_stats.json"):
+    def __init__(self, model_path, db_path="data/op_stats.json"):
         print("正在初始化戰術助理...")
         
         # 1. 初始化視覺神經 (Analyzer)
@@ -210,7 +210,7 @@ if __name__ == "__main__":
     MODEL_PATH = None 
     
     # 確保 op_stats.json 也能正確被找到
-    DB_PATH = os.path.join(BASE_DIR, "op_stats.json")
+    DB_PATH = os.path.join(BASE_DIR, "data", "op_stats.json")
     
     app = R6TacticalAssistant(MODEL_PATH, db_path=DB_PATH)
 

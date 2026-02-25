@@ -4,16 +4,17 @@ import { AlertCircle, Target, Shield, Users, Crosshair, HelpCircle, Globe } from
 import { motion, AnimatePresence } from 'framer-motion'
 import enUs from './locales/en-us.json'
 import zhTw from './locales/zh-tw.json'
+import configData from '../../config.json'
 
-// Define the Socket URL. In dev it will be the flask server.
-const SOCKET_URL = 'http://localhost:5000'
+// Define the Socket URL dynamically using config
+const SOCKET_URL = `http://localhost:${configData.api_port || 5000}`
 const translations = {
   'en-us': enUs,
   'zh-tw': zhTw
 }
 
 function App() {
-  const [lang, setLang] = useState('en-us')
+  const [lang, setLang] = useState(configData.language || 'en-us')
   const [socket, setSocket] = useState(null)
   const [gameState, setGameState] = useState({
     status: 'idle', // idle, waiting, active

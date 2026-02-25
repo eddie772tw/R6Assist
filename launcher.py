@@ -5,6 +5,7 @@ import threading
 import queue
 import time
 import json
+import webbrowser
 import customtkinter as ctk
 
 # Ensure working directory is the project root
@@ -45,7 +46,10 @@ class R6AssistLauncher(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        self.lm = LanguageManager(default_lang="en-us")
+        self.config_path = os.path.join(ROOT_DIR, "config.json")
+        self.config = self.load_config()
+
+        self.lm = LanguageManager(default_lang=self.config.get("language", "en-us"))
         
         self.title(self.lm.get("window_title"))
         self.geometry("900x650")
@@ -57,6 +61,8 @@ class R6AssistLauncher(ctk.CTk):
         
         self.setup_ui()
         self.update_ui_text() # Enforce text load
+        
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
         
         # Start log polling
         self.after(100, self.poll_log_queue)
@@ -89,20 +95,14 @@ class R6AssistLauncher(ctk.CTk):
         self.tools_label.grid(row=4, column=0, padx=20, pady=(20, 0), sticky="ew")
 
         # Tools buttons
-        self.btn_update_db = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("get_op_stat.py"))
-        self.btn_update_db.grid(row=5, column=0, padx=20, pady=(10, 5))
-
-        self.btn_download_icons = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("get_raw_icon.py"))
-        self.btn_download_icons.grid(row=6, column=0, padx=20, pady=5)
-
-        self.btn_gen_dataset = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("generate_dataset.py"))
-        self.btn_gen_dataset.grid(row=7, column=0, padx=20, pady=5)
-
-        self.btn_train = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("train.py"))
-        self.btn_train.grid(row=8, column=0, padx=20, pady=5)
+        self.btn_run_pipeline = ctk.CTkButton(self.sidebar_frame, command=self.run_update_pipeline)
+        self.btn_run_pipeline.grid(row=5, column=0, padx=20, pady=(10, 5))
         
+        self.btn_gui_labeler = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_training_tool("gui_labeler.py"))
+        self.btn_gui_labeler.grid(row=6, column=0, padx=20, pady=5)
+
         self.btn_verify = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("verify_roi.py"))
-        self.btn_verify.grid(row=9, column=0, padx=20, pady=5, sticky="n")
+        self.btn_verify.grid(row=7, column=0, padx=20, pady=5, sticky="n")
 
         # Status
         self.status_label = ctk.CTkLabel(self.sidebar_frame, text_color="gray")
@@ -137,11 +137,36 @@ class R6AssistLauncher(ctk.CTk):
         self.append_log(self.lm.get("welcome_1"))
         self.append_log(self.lm.get("welcome_2"))
 
+    def load_config(self):
+        try:
+            with open(self.config_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            # Fallbacks
+            return {
+                "language": "en-us",
+                "api_port": 5000,
+                "web_port": 5173,
+                "op_stats_path": "data/op_stats.json"
+            }
+
+    def save_config(self):
+        try:
+            with open(self.config_path, 'w', encoding='utf-8') as f:
+                json.dump(self.config, f, indent=4)
+        except Exception as e:
+            print(f"Failed to save config: {e}")
+
     def change_language(self, choice):
         if choice == "繁體中文 (zh-tw)":
-            self.lm.load_lang("zh-tw")
+            lang_code = "zh-tw"
         else:
-            self.lm.load_lang("en-us")
+            lang_code = "en-us"
+            
+        self.lm.load_lang(lang_code)
+        self.config["language"] = lang_code
+        self.save_config()
+        
         self.update_ui_text()
         self.append_log(f"Language Output -> {choice}")
 
@@ -150,10 +175,8 @@ class R6AssistLauncher(ctk.CTk):
         self.logo_label.configure(text=self.lm.get("logo_text"))
         self.dashboard_label.configure(text=self.lm.get("runtime_modules"))
         self.tools_label.configure(text=self.lm.get("dev_tools"))
-        self.btn_update_db.configure(text=self.lm.get("update_db"))
-        self.btn_download_icons.configure(text=self.lm.get("download_icons"))
-        self.btn_gen_dataset.configure(text=self.lm.get("gen_dataset"))
-        self.btn_train.configure(text=self.lm.get("train_model"))
+        self.btn_run_pipeline.configure(text=self.lm.get("run_update_pipeline", "Auto Update Operator Data"))
+        self.btn_gui_labeler.configure(text=self.lm.get("manual_label"))
         self.btn_verify.configure(text=self.lm.get("verify_roi"))
         self.console_title.configure(text=self.lm.get("system_logs"))
         self.btn_clear_log.configure(text=self.lm.get("clear_logs"))
@@ -192,23 +215,30 @@ class R6AssistLauncher(ctk.CTk):
         self.after(100, self.poll_log_queue)
         
     def read_process_output(self, process, process_name):
-        for line in iter(process.stdout.readline, b''):
+        import re
+        ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+        
+        def process_line(line_bytes):
             try:
-                line_str = line.decode('utf-8').rstrip()
+                line_str = line_bytes.decode('utf-8').rstrip()
             except UnicodeDecodeError:
-                line_str = line.decode('cp950', errors='ignore').rstrip()
-            if line_str:
-                self.append_log(f"[{process_name}] {line_str}")
+                line_str = line_bytes.decode('cp950', errors='ignore').rstrip()
+            if not line_str: return None
+            line_str = ansi_escape.sub('', line_str)
+            if '\r' in line_str:
+                parts = line_str.split('\r')
+                line_str = parts[-1] if parts[-1] else (parts[-2] if len(parts) > 1 else "")
+            return line_str.strip() if line_str.strip() else None
+
+        for line in iter(process.stdout.readline, b''):
+            parsed = process_line(line)
+            if parsed: self.append_log(f"[{process_name}] {parsed}")
                 
         # Handle stderr as well
         if process.stderr:
             for line in iter(process.stderr.readline, b''):
-                try:
-                    line_str = line.decode('utf-8').rstrip()
-                except UnicodeDecodeError:
-                    line_str = line.decode('cp950', errors='ignore').rstrip()
-                if line_str:
-                    self.append_log(f"[{process_name} WARN] {line_str}")
+                parsed = process_line(line)
+                if parsed: self.append_log(f"[{process_name} WARN] {parsed}")
                     
         process.stdout.close()
         process.wait()
@@ -243,6 +273,25 @@ class R6AssistLauncher(ctk.CTk):
             self.append_log(self.lm.get("failed_to_start", process_name=process_name, error=e))
             return False
 
+    def kill_process_by_port(self, port):
+        try:
+            if os.name == 'nt':
+                result = subprocess.run(['netstat', '-ano'], capture_output=True, text=True)
+                pids_to_kill = set()
+                for line in result.stdout.splitlines():
+                    if f":{port} " in line and "LISTENING" in line:
+                        parts = line.strip().split()
+                        if len(parts) >= 5:
+                            pid = parts[-1]
+                            if pid != "0":
+                                pids_to_kill.add(pid)
+                
+                for pid in pids_to_kill:
+                    subprocess.run(['taskkill', '/F', '/PID', pid], capture_output=True)
+                    self.append_log(f"Auto-cleared lingering process on port {port} (PID: {pid})")
+        except Exception:
+            pass
+
     def toggle_dashboard(self):
         # We need to start API (api.py) and Web UI (npm run dev)
         is_running = "API" in self.processes and self.processes["API"].poll() is None
@@ -260,12 +309,23 @@ class R6AssistLauncher(ctk.CTk):
             # Start them
             self.btn_dashboard.configure(fg_color="red")
             
+            api_port = self.config.get("api_port", 5000)
+            web_port = self.config.get("web_port", 5173)
+            
+            # Force-clear ports before starting to prevent crash from lingering processes
+            self.kill_process_by_port(api_port)
+            self.kill_process_by_port(web_port)
+            self.kill_process_by_port(web_port + 1) # Sometimes vite uses port+1
+            
             # 1. Start API Backend
             self.run_command_async([sys.executable, "api.py"], "API")
             
             # 2. Start Web UI Frontend
             web_cwd = os.path.join(ROOT_DIR, "r6assist-webui")
-            self.run_command_async(["npm", "run", "dev"], "WEB_UI", cwd=web_cwd)
+            self.run_command_async(["npm", "run", "dev", "--", "--port", str(web_port)], "WEB_UI", cwd=web_cwd)
+            
+            # 3. Automatically open the browser after a brief delay
+            self.after(3000, lambda: webbrowser.open(f"http://localhost:{web_port}/"))
             
         self.update_status_labels()
 
@@ -291,19 +351,90 @@ class R6AssistLauncher(ctk.CTk):
         process_name = f"TOOL: {tool_file}"
         self.run_command_async([sys.executable, tool_path], process_name)
 
-    def destroy(self):
+    def run_training_tool(self, tool_file):
+        tool_path = os.path.join("training_tools", tool_file)
+        if not os.path.exists(tool_path):
+            self.append_log(self.lm.get("tool_not_found", tool_path=tool_path))
+            return
+            
+        process_name = f"TRAIN_TOOL: {tool_file}"
+        self.run_command_async([sys.executable, tool_path], process_name)
+
+    def run_update_pipeline(self):
+        def pipeline_thread():
+            tools = [
+                "get_op_stat.py",
+                "get_raw_icon.py",
+                "generate_dataset.py",
+                "train.py"
+            ]
+            self.append_log(self.lm.get("pipeline_start", "--- Starting Auto Update Pipeline ---"))
+            
+            import re
+            ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+            
+            def process_line(line_bytes):
+                try:
+                    line_str = line_bytes.decode('utf-8').rstrip()
+                except UnicodeDecodeError:
+                    line_str = line_bytes.decode('cp950', errors='ignore').rstrip()
+                if not line_str: return None
+                line_str = ansi_escape.sub('', line_str)
+                if '\r' in line_str:
+                    parts = line_str.split('\r')
+                    line_str = parts[-1] if parts[-1] else (parts[-2] if len(parts) > 1 else "")
+                return line_str.strip() if line_str.strip() else None
+
+            for tool_file in tools:
+                tool_path = os.path.join("tools", tool_file)
+                if not os.path.exists(tool_path):
+                    self.append_log(self.lm.get("tool_not_found", tool_path=tool_path))
+                    break
+                    
+                process_name = f"TOOL: {tool_file}"
+                self.append_log(self.lm.get("starting_process", process_name=process_name))
+                try:
+                    p = subprocess.Popen(
+                        [sys.executable, tool_path],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                        cwd=ROOT_DIR,
+                    )
+                    self.processes[process_name] = p
+                    
+                    for line in iter(p.stdout.readline, b''):
+                        parsed = process_line(line)
+                        if parsed: self.append_log(f"[{process_name}] {parsed}")
+                                
+                    p.wait()
+                    code = p.returncode
+                    self.append_log(self.lm.get("process_exited", process_name=process_name, code=code))
+                    
+                    if code != 0:
+                        self.append_log(self.lm.get("pipeline_error", "Pipeline stopped due to an error."))
+                        break
+                except Exception as e:
+                    self.append_log(self.lm.get("failed_to_start", process_name=process_name, error=e))
+                    break
+            else:
+                self.append_log(self.lm.get("pipeline_complete", "--- Auto Update Pipeline Complete ---"))
+                
+        threading.Thread(target=pipeline_thread, daemon=True).start()
+
+    def on_closing(self):
         # Clean up any running child processes when the GUI is closed
-        self.append_log(self.lm.get("shutting_down"))
+        print("Shutting down... cleaning up child processes.")
         for name, p in self.processes.items():
             if p.poll() is None:
                 try:
-                    if name == "WEB_UI" and os.name == 'nt':
+                    if os.name == 'nt':
                          os.system(f"taskkill /F /PID {p.pid} /T >nul 2>&1")
                     else:
                         p.terminate()
                 except Exception:
                     pass
-        super().destroy()
+        self.destroy()
+        os._exit(0)
 
 if __name__ == "__main__":
     app = R6AssistLauncher()

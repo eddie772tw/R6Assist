@@ -18,7 +18,7 @@ import os
 from collections import defaultdict
 
 class TacticalAdvisor:
-    def __init__(self, db_path="op_stats.json"):
+    def __init__(self, db_path="data/op_stats.json"):
         self.db = self._load_db(db_path)
         
         # === 權重設定 (可隨時微調) ===

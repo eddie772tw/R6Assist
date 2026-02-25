@@ -19,10 +19,22 @@ except ImportError:
 from core.assistant import R6TacticalAssistant
 from core.collector import DataCollector
 
+from flask_cors import CORS
+import json
+
 app = Flask(__name__)
 # Enable CORS for the Vite dev server (usually runs on port 5173 or localhost)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
+
+# Load configuration
+API_PORT = 5000
+try:
+    with open('config.json', 'r', encoding='utf-8') as f:
+        config_data = json.load(f)
+        API_PORT = config_data.get('api_port', 5000)
+except Exception as e:
+    print(f"⚠️ Could not load config.json (using default port 5000): {e}")
 
 # Create a global state to keep track of the monitoring thread
 monitoring_thread = None
@@ -178,5 +190,5 @@ def stop_mon():
     socketio.emit('gameState', {"status": "idle", "message": "Monitoring stopped."})
 
 if __name__ == '__main__':
-    print("Starting Flask-SocketIO Server on port 5000...")
-    socketio.run(app, host='0.0.0.0', port=5000, debug=False, log_output=False)
+    print(f"Starting Flask-SocketIO Server on port {API_PORT}...")
+    socketio.run(app, host='0.0.0.0', port=API_PORT, debug=False, log_output=False)

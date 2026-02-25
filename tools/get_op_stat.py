@@ -24,7 +24,7 @@ import io
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class R6StatsFetcher:
-    def __init__(self, base_url="https://liquipedia.net/rainbowsix/Portal:Operators", output_file="op_stats.json"):
+    def __init__(self, base_url="https://liquipedia.net/rainbowsix/Portal:Operators", output_file="data/op_stats.json"):
         self.base_url = base_url
         self.output_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), output_file)
         self.headers = {
