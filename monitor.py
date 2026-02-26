@@ -66,9 +66,12 @@ class GameMonitor:
             try:
                 # 嘗試初始化 DXCam (高效能 Desktop Duplication API)
                 self.camera = dxcam.create(output_idx=0, output_color="BGR")
-                self.use_dxcam = True
-                self.res_w, self.res_h = self.camera.width, self.camera.height
-                print("🚀 已啟用 DXCam 高速截圖引擎")
+                if self.camera and hasattr(self.camera, 'is_capturing'):
+                    self.use_dxcam = True
+                    self.res_w, self.res_h = self.camera.width, self.camera.height
+                    print("🚀 已啟用 DXCam 高速截圖引擎")
+                else:
+                    print("⚠️ DXCam 建立但無效，將降級為 MSS")
             except Exception as e:
                 print(f"⚠️ DXCam 初始化異常: {e}，將降級為 MSS")
         

@@ -64,8 +64,11 @@ def monitoring_loop():
     if HAS_DXCAM:
         try:
             camera = dxcam.create(output_idx=0, output_color="BGR")
-            use_dxcam = True
-            print("🚀 DXCam initialized for API")
+            if camera and hasattr(camera, 'is_capturing'):
+                use_dxcam = True
+                print("🚀 DXCam initialized for API")
+            else:
+                print("⚠️ DXCam created but invalid, falling back to MSS")
         except Exception as e:
             print(f"⚠️ DXCam init failed: {e}")
             
@@ -150,7 +153,11 @@ def monitoring_loop():
             
     # Cleanup capture devices
     if use_dxcam and camera:
-        camera.stop()
+        try:
+            if hasattr(camera, 'is_capturing'):
+                camera.stop()
+        except AttributeError:
+            pass # DXCam internal bug in some versions
         del camera
     elif sct:
         sct.close()

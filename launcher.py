@@ -33,8 +33,8 @@ class LanguageManager:
             print(f"Warning: Failed to load language {lang_code} from {path}. {e}")
             self.strings = {}
 
-    def get(self, key, **kwargs):
-        text = self.strings.get(key, key)
+    def get(self, key, default=None, **kwargs):
+        text = self.strings.get(key, default if default is not None else key)
         if kwargs:
             try:
                 text = text.format(**kwargs)
