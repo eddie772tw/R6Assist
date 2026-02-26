@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
-import { AlertCircle, Target, Shield, Users, Crosshair, HelpCircle, Globe } from 'lucide-react'
+import { AlertCircle, Target, Shield, Users, Crosshair, HelpCircle, Globe, Save, CheckCircle2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import enUs from './locales/en-us.json'
 import zhTw from './locales/zh-tw.json'
@@ -16,6 +16,7 @@ const translations = {
 function App() {
   const [lang, setLang] = useState(configData.language || 'en-us')
   const [socket, setSocket] = useState(null)
+  const [archiveStatus, setArchiveStatus] = useState('idle') // idle, archiving, success, error
   const [gameState, setGameState] = useState({
     status: 'idle', // idle, waiting, active
     message: translations[lang].connecting,
@@ -42,6 +43,16 @@ function App() {
       setGameState(data)
     })
 
+    newSocket.on('archive_success', () => {
+      setArchiveStatus('success')
+      setTimeout(() => setArchiveStatus('idle'), 3000)
+    })
+
+    newSocket.on('archive_error', () => {
+      setArchiveStatus('error')
+      setTimeout(() => setArchiveStatus('idle'), 3000)
+    })
+
     newSocket.on('disconnect', () => {
       console.log('Disconnected from backend')
       setGameState(prev => ({ ...prev, status: 'idle', message: 'connection_lost' }))
@@ -49,6 +60,13 @@ function App() {
 
     return () => newSocket.close()
   }, [])
+
+  const handleArchive = () => {
+    if (socket && archiveStatus === 'idle') {
+      setArchiveStatus('archiving')
+      socket.emit('archive_capture')
+    }
+  }
 
   const t = translations[lang]
 
@@ -82,7 +100,7 @@ function App() {
             value={lang}
             onChange={(e) => setLang(e.target.value)}
           >
-            <option value="en-us">English</option>
+            <option value="en-us">English (US)</option>
             <option value="zh-tw">繁體中文</option>
           </select>
         </div>
@@ -112,20 +130,43 @@ function App() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_var(--tw-gradient-stops))] from-indigo-900/20 via-transparent to-transparent -z-10 pointer-events-none" />
 
       {/* Language Switcher */}
-      <div className="absolute top-4 right-4 md:top-8 md:right-8 flex items-center gap-2 z-50">
-        <Globe className="w-5 h-5 text-slate-400" />
-        <select
-          className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2 outline-none cursor-pointer shadow-lg backdrop-blur-sm"
-          value={lang}
-          onChange={(e) => setLang(e.target.value)}
+      <div className="absolute top-4 right-4 md:top-8 md:right-8 flex items-center gap-4 z-50">
+        {/* Archive Button */}
+        <button
+          onClick={handleArchive}
+          disabled={archiveStatus !== 'idle'}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${archiveStatus === 'success'
+              ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
+              : archiveStatus === 'error'
+                ? 'bg-rose-500/20 border-rose-500/50 text-rose-400'
+                : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700/80 hover:border-slate-600 active:scale-95'
+            } shadow-lg backdrop-blur-sm`}
         >
-          <option value="en-us">EN</option>
-          <option value="zh-tw">繁中</option>
-        </select>
+          {archiveStatus === 'success' ? (
+            <CheckCircle2 className="w-5 h-5" />
+          ) : (
+            <Save className={`w-5 h-5 ${archiveStatus === 'archiving' ? 'animate-pulse' : ''}`} />
+          )}
+          <span className="font-semibold hidden sm:inline">
+            {archiveStatus === 'archiving' ? t.archiving : archiveStatus === 'success' ? t.archive_success : archiveStatus === 'error' ? t.archive_error : t.archive_data}
+          </span>
+        </button>
+
+        <div className="flex items-center gap-2">
+          <Globe className="w-5 h-5 text-slate-400" />
+          <select
+            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2 outline-none cursor-pointer shadow-lg backdrop-blur-sm"
+            value={lang}
+            onChange={(e) => setLang(e.target.value)}
+          >
+            <option value="en-us">EN</option>
+            <option value="zh-tw">繁中</option>
+          </select>
+        </div>
       </div>
 
       {/* Header Bar */}
-      <header className="flex flex-col flex-wrap md:flex-row items-start md:items-center justify-between gap-4 mb-8 mt-12 md:mt-0 pr-0 md:pr-24">
+      <header className="flex flex-col flex-wrap md:flex-row items-start md:items-center justify-between gap-4 mb-8 mt-12 md:mt-0 pr-0 md:pr-48">
         <div className="flex items-center gap-4">
           <div className={`p-3 rounded-2xl glass-panel flex items-center justify-center ${getSideColor(gameState.side)}`}>
             {getSideIcon(gameState.side)}
@@ -291,3 +332,4 @@ function App() {
 }
 
 export default App
+

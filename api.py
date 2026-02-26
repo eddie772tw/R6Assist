@@ -39,10 +39,12 @@ except Exception as e:
 # Create a global state to keep track of the monitoring thread
 monitoring_thread = None
 is_monitoring = False
+latest_scan_data = None # Store (team_names, confidences, crop_images)
 
 # Initialize Assistant
 try:
     assistant = R6TacticalAssistant(None) # Auto find model
+    collector = DataCollector() # Initialize DataCollector for archiving
     print("✅ R6Assist Core Engine Loaded")
 except Exception as e:
     print(f"❌ Failed to load R6Assist Core: {e}")
@@ -51,7 +53,7 @@ except Exception as e:
 
 def monitoring_loop():
     """Background task to monitor screen and emit WebSocket events"""
-    global is_monitoring
+    global is_monitoring, latest_scan_data
     target_fps = 2
     frame_time = 1.0 / target_fps
     
@@ -110,6 +112,9 @@ def monitoring_loop():
         if frame_changed:
             last_frame = img.copy()
             team_names, confidences, crop_images = assistant.analyzer.analyze_screenshot(img)
+            
+            # Cache the latest scan data for manual archiving
+            latest_scan_data = (team_names, confidences, crop_images)
             
             # Use valid count to decide if we are in character selection
             valid_count = sum(1 for n in team_names if n != "Unknown")
@@ -196,6 +201,20 @@ def stop_mon():
     print("Stopped monitoring loop")
     socketio.emit('gameState', {"status": "idle", "message": "Monitoring stopped."})
 
+@socketio.on('archive_capture')
+def archive_capture():
+    """Manually archive the latest scan data"""
+    global latest_scan_data
+    if latest_scan_data:
+        team_names, confidences, crop_images = latest_scan_data
+        collector.process_batch(crop_images, team_names, confidences)
+        print(f"✅ Manual archive complete: {len(team_names)} samples saved.")
+        socketio.emit('archive_success', {"message": "Data archived successfully!"})
+    else:
+        print("⚠️ No data to archive.")
+        socketio.emit('archive_error', {"message": "No active scan data to archive."})
+
 if __name__ == '__main__':
     print(f"Starting Flask-SocketIO Server on port {API_PORT}...")
     socketio.run(app, host='0.0.0.0', port=API_PORT, debug=False, log_output=False)
+

@@ -70,7 +70,19 @@ class R6AssistLabeler(tk.Tk):
         # Scan train and val datasets to get all known operator names
         operators = set()
         
-        # Check both train and val dirs
+        # 1. Primary Source: data/op_stats.json (full list from wiki)
+        stats_path = os.path.join(os.path.dirname(self.dataset_dir), "data", "op_stats.json")
+        if os.path.exists(stats_path):
+            try:
+                import json
+                with open(stats_path, "r", encoding="utf-8") as f:
+                    stats_data = json.load(f)
+                    for op_name in stats_data.keys():
+                        operators.add(op_name)
+            except Exception as e:
+                print(f"⚠️ Warning: Failed to load op_stats.json: {e}")
+
+        # 2. Fallback: Check both train and val dirs
         for subset in ['train', 'val']:
             subset_dir = os.path.join(self.dataset_dir, subset)
             if not os.path.isdir(subset_dir): continue
@@ -80,18 +92,30 @@ class R6AssistLabeler(tk.Tk):
                     if op.lower() != 'unknown':
                         operators.add(op)
                         
+        # 3. Fallback: Check collected_data folder for existing categories
+        collected_dir = os.path.join(self.dataset_dir, "collected_data")
+        if os.path.isdir(collected_dir):
+            for op in os.listdir(collected_dir):
+                if os.path.isdir(os.path.join(collected_dir, op)):
+                    if op.lower() != 'unknown':
+                        operators.add(op)
+
         op_list = sorted(list(operators))
         return op_list
 
     def find_unknown_images(self):
-        unknown_dir = os.path.join(self.harvest_dir, "unknown")
-        if not os.path.isdir(unknown_dir):
-            return []
-            
+        # Check multiple potential folder names (case-insensitive)
+        unknown_variants = ["unknown", "Unknown", "UNKNOWN"]
+        
         images = []
-        for file in os.listdir(unknown_dir):
-            if fnmatch.fnmatch(file.lower(), '*.jpg') or fnmatch.fnmatch(file.lower(), '*.png'):
-                images.append(os.path.join(unknown_dir, file))
+        for variant in unknown_variants:
+            unknown_dir = os.path.join(self.harvest_dir, variant)
+            if not os.path.isdir(unknown_dir):
+                continue
+                
+            for file in os.listdir(unknown_dir):
+                if fnmatch.fnmatch(file.lower(), '*.jpg') or fnmatch.fnmatch(file.lower(), '*.png'):
+                    images.append(os.path.join(unknown_dir, file))
                 
         return sorted(images)
 
@@ -160,7 +184,7 @@ class R6AssistLabeler(tk.Tk):
 
     def load_image(self):
         if not self.image_files:
-            self.img_lbl.config(image='', text="恭喜！Unknown 資料夾內已無任何需要分類的圖片。")
+            self.img_lbl.config(image='', text="恭喜！資料夾內已無任何需要分類的圖片。")
             self.status_lbl.config(text="0 / 0")
             self.file_lbl.config(text="")
             self.cb_operator.set('')
@@ -266,12 +290,32 @@ if __name__ == "__main__":
     # Resolve paths
     tools_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.dirname(tools_dir)
+    
+    # Check multiple potential harvest directories
+    # 1. dataset_harvested (older standard)
+    # 2. dataset/collected_data (newer standardized collection folder)
     harvest_dir = os.path.join(root_dir, "dataset_harvested")
     dataset_dir = os.path.join(root_dir, "dataset")
     
-    if not os.path.exists(os.path.join(harvest_dir, "unknown")):
-        print(f"找不到未知分類資料夾: {os.path.join(harvest_dir, 'unknown')}")
-        print("請確保您已經運行過 crop_and_label.py 來擷取遊戲截圖。")
+    if not os.path.exists(harvest_dir):
+        # Fallback to the newer collected_data folder
+        collected_path = os.path.join(dataset_dir, "collected_data")
+        if os.path.exists(collected_path):
+            harvest_dir = collected_path
+        
+    print(f"分類器正在監控來源: {harvest_dir}")
+    
+    # Check for presence of 'unknown' subfolder
+    found_unknown = False
+    for v in ["unknown", "Unknown", "UNKNOWN"]:
+        if os.path.exists(os.path.join(harvest_dir, v)):
+            found_unknown = True
+            break
+            
+    if not found_unknown:
+        print(f"⚠️ 警告: 找不到未知分類資料夾 (unknown) 在 {harvest_dir}")
+        print("請確保您已經運行過 截圖歸檔功能 或 crop_and_label.py 來獲取原始圖標。")
         
     app = R6AssistLabeler(harvest_dir, dataset_dir)
     app.mainloop()
+

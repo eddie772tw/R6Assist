@@ -1,8 +1,8 @@
 task: classify
 mode: train
-model: yolov8n-cls.pt
-data: c:\Users\user\OneDrive - 大同智能股份有限公司\桌面\utility\R6Assist\dataset
-epochs: 20
+model: c:\Users\eddie\Desktop\Utility\R6Assist\core\..\runs\classify\r6_operator_classifier\weights\best.pt
+data: c:\Users\eddie\Desktop\Utility\R6Assist\dataset
+epochs: 10
 time: null
 patience: 100
 batch: 64
@@ -11,10 +11,10 @@ save: true
 save_period: -1
 cache: false
 device: cpu
-workers: 2
-project: null
-name: r6_operator_classifier3
-exist_ok: false
+workers: 8
+project: c:\Users\eddie\Desktop\Utility\R6Assist\runs\classify
+name: r6_operator_finetune
+exist_ok: true
 pretrained: true
 optimizer: auto
 verbose: true
@@ -103,4 +103,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: botsort.yaml
-save_dir: C:\Users\user\OneDrive - 大同智能股份有限公司\桌面\utility\runs\classify\r6_operator_classifier3
+save_dir: C:\Users\eddie\Desktop\Utility\R6Assist\runs\classify\r6_operator_finetune

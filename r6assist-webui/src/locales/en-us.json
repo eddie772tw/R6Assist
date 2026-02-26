@@ -15,5 +15,9 @@
     "tactical_recommendations": "Tactical Recommendations",
     "optimal_choice": "OPTIMAL CHOICE",
     "no_recommendations": "No recommendations available right now.",
-    "terminal": "R6Assist Terminal"
+    "terminal": "R6Assist Terminal",
+    "archive_data": "Archive Match Data",
+    "archiving": "Archiving...",
+    "archive_success": "Data archived successfully!",
+    "archive_error": "No data to archive."
 }

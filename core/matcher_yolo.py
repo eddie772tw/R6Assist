@@ -40,11 +40,21 @@ class MLOperatorMatcher:
         best_run_path = None
         max_run_num = -1
         
+        # 支援的資料夾前綴 (依據訓練腳本設定)
+        prefixes = ["r6_operator_finetune", "r6_operator_classifier"]
+        
         if os.path.exists(runs_dir):
             for dirname in os.listdir(runs_dir):
-                if dirname.startswith("r6_operator_classifier"):
+                matched_prefix = None
+                for p in prefixes:
+                    if dirname.startswith(p):
+                        matched_prefix = p
+                        break
+                
+                if matched_prefix:
                     # 解析版本號
-                    suffix = dirname.replace("r6_operator_classifier", "")
+                    # e.g. "r6_operator_finetune2" -> suffix is "2"
+                    suffix = dirname.replace(matched_prefix, "")
                     if suffix == "":
                         run_num = 1
                     elif suffix.isdigit():
@@ -52,11 +62,16 @@ class MLOperatorMatcher:
                     else:
                         continue
                     
+                    # 權衡：finetune 的優先級通常高於同編號的 classifier，
+                    # 或是我們乾脆看最後修改時間，或者維持數字遞增邏輯。
+                    # 這裡採用簡單邏輯：將編號加上前綴權重，確保 finetune 會被排在更後面 (更高分)
+                    score = run_num + (1000 if matched_prefix == "r6_operator_finetune" else 0)
+                    
                     # 檢查該資料夾內是否有 best.pt
                     candidate_weights = os.path.join(runs_dir, dirname, "weights", "best.pt")
                     if os.path.exists(candidate_weights):
-                        if run_num > max_run_num:
-                            max_run_num = run_num
+                        if score > max_run_num:
+                            max_run_num = score
                             best_run_path = candidate_weights
 
         candidates = []

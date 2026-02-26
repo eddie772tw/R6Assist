@@ -98,11 +98,14 @@ class R6AssistLauncher(ctk.CTk):
         self.btn_run_pipeline = ctk.CTkButton(self.sidebar_frame, command=self.run_update_pipeline)
         self.btn_run_pipeline.grid(row=5, column=0, padx=20, pady=(10, 5))
         
+        self.btn_transfer_train = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_training_tool("transfer_train.py"))
+        self.btn_transfer_train.grid(row=6, column=0, padx=20, pady=5)
+        
         self.btn_gui_labeler = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_training_tool("gui_labeler.py"))
-        self.btn_gui_labeler.grid(row=6, column=0, padx=20, pady=5)
+        self.btn_gui_labeler.grid(row=7, column=0, padx=20, pady=5)
 
         self.btn_verify = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("verify_roi.py"))
-        self.btn_verify.grid(row=7, column=0, padx=20, pady=5, sticky="n")
+        self.btn_verify.grid(row=8, column=0, padx=20, pady=5, sticky="n")
 
         # Status
         self.status_label = ctk.CTkLabel(self.sidebar_frame, text_color="gray")
@@ -176,6 +179,7 @@ class R6AssistLauncher(ctk.CTk):
         self.dashboard_label.configure(text=self.lm.get("runtime_modules"))
         self.tools_label.configure(text=self.lm.get("dev_tools"))
         self.btn_run_pipeline.configure(text=self.lm.get("run_update_pipeline", "Auto Update Operator Data"))
+        self.btn_transfer_train.configure(text=self.lm.get("transfer_train", "Transfer Learning (Finetune)"))
         self.btn_gui_labeler.configure(text=self.lm.get("manual_label"))
         self.btn_verify.configure(text=self.lm.get("verify_roi"))
         self.console_title.configure(text=self.lm.get("system_logs"))

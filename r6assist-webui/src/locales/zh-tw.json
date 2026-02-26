@@ -15,5 +15,9 @@
     "tactical_recommendations": "戰術幹員推薦",
     "optimal_choice": "最佳選擇",
     "no_recommendations": "現階段無可用推薦。",
-    "terminal": "R6Assist 戰術終端機"
+    "terminal": "R6Assist 戰術終端機",
+    "archive_data": "歸檔對戰資料",
+    "archiving": "正在歸檔...",
+    "archive_success": "資料歸檔成功！",
+    "archive_error": "無可歸檔的資料。"
 }

@@ -9,7 +9,10 @@ class DataCollector:
         if base_dir is None:
             # Default to project_root/dataset/collected_data
             current_file = os.path.abspath(__file__)
-            project_root = os.path.dirname(current_file)
+            # current_file is core/collector.py, so its parent is 'core'
+            core_dir = os.path.dirname(current_file)
+            # The project root is one level up from 'core'
+            project_root = os.path.dirname(core_dir)
             self.base_dir = os.path.join(project_root, "dataset", "collected_data")
         else:
             self.base_dir = base_dir

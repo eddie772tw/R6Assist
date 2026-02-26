@@ -53,7 +53,7 @@ def main():
     print("=== R6Assist 資料增強與合併工具 ===")
     
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    source_dir = os.path.join(base_dir, 'dataset_harvested')
+    source_dir = os.path.join(base_dir, 'dataset\collected_data')
     target_dir = os.path.join(base_dir, 'dataset')
     
     if not os.path.exists(source_dir):
