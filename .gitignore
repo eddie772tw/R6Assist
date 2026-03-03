@@ -37,7 +37,24 @@ results/
 debug/
 screenshot/
 
+
 # Datasets and Generated Assets (Uncomment if these should be tracked)
 dataset/
 processed_icons/
 raw_icons/
+runs/classify/r6_operator_classifier/args.yaml
+runs/classify/r6_operator_classifier/confusion_matrix_normalized.png
+runs/classify/r6_operator_classifier/confusion_matrix.png
+runs/classify/r6_operator_classifier/results.csv
+runs/classify/r6_operator_classifier/results.png
+runs/classify/r6_operator_classifier/train_batch0.jpg
+runs/classify/r6_operator_classifier/train_batch1.jpg
+runs/classify/r6_operator_classifier/train_batch2.jpg
+runs/classify/r6_operator_classifier/val_batch0_labels.jpg
+runs/classify/r6_operator_classifier/val_batch0_pred.jpg
+runs/classify/r6_operator_classifier/val_batch1_labels.jpg
+runs/classify/r6_operator_classifier/val_batch1_pred.jpg
+runs/classify/r6_operator_classifier/val_batch2_labels.jpg
+runs/classify/r6_operator_classifier/val_batch2_pred.jpg
+runs/classify/r6_operator_classifier/weights/best.pt
+runs/classify/r6_operator_classifier/weights/last.pt
