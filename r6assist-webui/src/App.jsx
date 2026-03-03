@@ -17,6 +17,7 @@ function App() {
   const [lang, setLang] = useState(configData.language || 'en-us')
   const [socket, setSocket] = useState(null)
   const [archiveStatus, setArchiveStatus] = useState('idle') // idle, archiving, success, error
+  const [lastActiveState, setLastActiveState] = useState(null)
   const [gameState, setGameState] = useState({
     status: 'idle', // idle, waiting, active
     message: translations[lang].connecting,
@@ -41,6 +42,9 @@ function App() {
     newSocket.on('gameState', (data) => {
       console.log('Received Game State:', data)
       setGameState(data)
+      if (data.status === 'active') {
+        setLastActiveState(data)
+      }
     })
 
     newSocket.on('archive_success', () => {
@@ -87,7 +91,7 @@ function App() {
       gameState.message
 
   // Waiting State
-  if (gameState.status !== 'active') {
+  if (gameState.status !== 'active' && !lastActiveState) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6 subtle-bg bg-fixed bg-cover bg-center text-slate-100">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-900/40 to-slate-900 -z-10" />
@@ -124,6 +128,8 @@ function App() {
   }
 
   // Active Dashboard State
+  const displayState = gameState.status === 'active' ? gameState : (lastActiveState || gameState)
+
   return (
     <div className="min-h-screen p-4 md:p-8 flex flex-col relative overflow-hidden text-slate-100">
       <div className="absolute inset-0 bg-slate-950 -z-20" />
@@ -136,10 +142,10 @@ function App() {
           onClick={handleArchive}
           disabled={archiveStatus !== 'idle'}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${archiveStatus === 'success'
-              ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
-              : archiveStatus === 'error'
-                ? 'bg-rose-500/20 border-rose-500/50 text-rose-400'
-                : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700/80 hover:border-slate-600 active:scale-95'
+            ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
+            : archiveStatus === 'error'
+              ? 'bg-rose-500/20 border-rose-500/50 text-rose-400'
+              : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700/80 hover:border-slate-600 active:scale-95'
             } shadow-lg backdrop-blur-sm`}
         >
           {archiveStatus === 'success' ? (
@@ -165,29 +171,44 @@ function App() {
         </div>
       </div>
 
+      {/* Outdated Result Warning */}
+      <AnimatePresence>
+        {gameState.status !== 'active' && lastActiveState && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="flex items-center justify-center gap-3 p-3 mb-6 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 font-medium w-full max-w-4xl mx-auto shadow-lg backdrop-blur-sm z-40 mt-12 md:mt-0"
+          >
+            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+            <span>{t.outdated_result}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Header Bar */}
-      <header className="flex flex-col flex-wrap md:flex-row items-start md:items-center justify-between gap-4 mb-8 mt-12 md:mt-0 pr-0 md:pr-48">
+      <header className={`flex flex-col flex-wrap md:flex-row items-start md:items-center justify-between gap-4 mb-8 ${(gameState.status !== 'active' && lastActiveState) ? 'mt-0' : 'mt-12 md:mt-0'} pr-0 md:pr-48`}>
         <div className="flex items-center gap-4">
-          <div className={`p-3 rounded-2xl glass-panel flex items-center justify-center ${getSideColor(gameState.side)}`}>
-            {getSideIcon(gameState.side)}
+          <div className={`p-3 rounded-2xl glass-panel flex items-center justify-center ${getSideColor(displayState.side)}`}>
+            {getSideIcon(displayState.side)}
           </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight uppercase flex items-center gap-3">
-              {getSideLabel(gameState.side)} {t.phase}
+              {getSideLabel(displayState.side)} {t.phase}
             </h1>
             <div className="flex items-center gap-2 mt-1 text-slate-400 font-medium">
               <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${gameState.status === 'active' ? 'bg-emerald-400' : 'bg-amber-400'}`}></span>
+                <span className={`relative inline-flex rounded-full h-2 w-2 ${gameState.status === 'active' ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
               </span>
-              {t.live_monitoring}
+              {gameState.status === 'active' ? t.live_monitoring : displayMessage}
             </div>
           </div>
         </div>
 
         {/* Missing Roles Warning */}
         <AnimatePresence>
-          {gameState.missing_roles && gameState.missing_roles.length > 0 && (
+          {displayState.missing_roles && displayState.missing_roles.length > 0 && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -196,7 +217,7 @@ function App() {
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span className="font-semibold">{t.team_lacks}</span>
               <div className="flex flex-wrap gap-2">
-                {gameState.missing_roles.map((role, idx) => (
+                {displayState.missing_roles.map((role, idx) => (
                   <span key={idx} className="px-2 py-0.5 rounded-md bg-amber-500/20 text-sm whitespace-nowrap">{role}</span>
                 ))}
               </div>
@@ -219,10 +240,10 @@ function App() {
               <div className="flex flex-col gap-2">
                 <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">{t.your_selection}</span>
                 <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-                  <span className="text-xl font-bold">{gameState.user_pick || t.waiting}</span>
-                  {gameState.user_pick !== 'Unknown' && (
-                    <div className={`px-4 py-1.5 rounded-full font-bold text-sm ${getScoreColor(gameState.user_score)}`}>
-                      {t.score} {gameState.user_score.toFixed(1)}
+                  <span className="text-xl font-bold">{displayState.user_pick || t.waiting}</span>
+                  {displayState.user_pick !== 'Unknown' && (
+                    <div className={`px-4 py-1.5 rounded-full font-bold text-sm ${getScoreColor(displayState.user_score)}`}>
+                      {t.score} {displayState.user_score ? displayState.user_score.toFixed(1) : '0.0'}
                     </div>
                   )}
                 </div>
@@ -231,7 +252,7 @@ function App() {
               <div className="flex flex-col gap-2 mt-6">
                 <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">{t.teammates}</span>
                 <div className="flex flex-col gap-2">
-                  {gameState.teammates.map((mate, idx) => (
+                  {displayState.teammates.map((mate, idx) => (
                     <div key={idx} className="flex items-center gap-4 p-3 rounded-xl bg-slate-800/30 border border-slate-700/30 text-slate-300">
                       <div className="w-8 h-8 rounded-lg bg-slate-700/50 flex items-center justify-center text-xs font-bold text-slate-400">P{idx + 1}</div>
                       <span className="font-medium">{mate}</span>
@@ -253,7 +274,7 @@ function App() {
 
             <div className="grid gap-4">
               <AnimatePresence mode="popLayout">
-                {gameState.recommendations.map((rec, index) => (
+                {displayState.recommendations.map((rec, index) => (
                   <motion.div
                     key={rec.name}
                     layout
@@ -317,7 +338,7 @@ function App() {
                 ))}
               </AnimatePresence>
 
-              {gameState.recommendations.length === 0 && (
+              {displayState.recommendations.length === 0 && (
                 <div className="glass-panel p-8 rounded-3xl text-center text-slate-400">
                   {t.no_recommendations}
                 </div>

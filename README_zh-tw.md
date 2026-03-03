@@ -11,9 +11,10 @@
 *   **網頁版戰術看板 (Web UI)**：全新的前後端分離設計，透過瀏覽器提供高品質、具備即時動畫的圖形化建議介面。
 *   **高效能截圖**：支援 `dxcam` (DirectX 高速截圖) 與 `mss`，確保低延遲與低資源佔用。
 *   **戰術建議引擎**：
-    *   自動判斷攻/守方陣營。
+    *   透過比對 UI 截圖自動判斷攻/守方陣營 (進而觸發精準的 YOLO 辨識)。
     *   分析隊伍現有的職能缺口 (如：缺乏切牆、情報、補血等)。
     *   提供即時的評分與換角建議。
+    *   Web UI 提供持久化狀態，在切換畫面時保留最後的辨識結果，並在資料過時自動提示警告。
 
 ## 🛠️ 安裝說明
 
@@ -47,7 +48,7 @@
 ### 1. 訓練或準備模型 (重要)
 本專案需要訓練好的 YOLOv8 分類模型才能運作。
 *   將訓練好的模型檔案放置於預設路徑 (通常會自動搜尋 `runs/classify/train/weights/best.pt`)。
-*   如果您還沒有模型，請參考 `generate_dataset.py` 與 `train.py` 自行收集資料並訓練。
+*   如果您還沒有模型，請參考 `training_tools/` 資料夾內的 `generate_dataset.py`, `train.py`，以及新整合的 `transfer_train.py` 進行資料收集與遷移學習 (Transfer Learning)，以訓練專屬模型。
 
 ### 2. 啟動即時監控 (推薦：使用圖形化 Launcher 啟動器)
 
@@ -107,7 +108,7 @@ python core/assistant.py
     *   `logic.py`: 戰術邏輯模組，負責計算隊伍分數與推薦。
     *   `matcher_yolo.py`: YOLO 模型載入與預測實作。
     *   `collector.py`: 自選畫面搜集與資料儲存模組。
-*   `tools/`: 包含訓練、資料集生成、原始圖說抓取等開發輔助工具 (`generate_dataset.py`, `train.py`, `get_op_stat.py` 等)。
+*   `tools/` & `training_tools/`: 包含訓練、遷移學習腳本 (`transfer_train.py`)、資料集生成、原始圖標抓取等開發輔助工具。
 *   `data/op_stats.json`: 幹員資料庫，定義了每位幹員的陣營、職能與評分權重。
 
 ## ⚠️ 注意事項

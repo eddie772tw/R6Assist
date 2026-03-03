@@ -19,5 +19,6 @@
     "archive_data": "Archive Match Data",
     "archiving": "Archiving...",
     "archive_success": "Data archived successfully!",
-    "archive_error": "No data to archive."
+    "archive_error": "No data to archive.",
+    "outdated_result": "Current recognition result might be outdated."
 }

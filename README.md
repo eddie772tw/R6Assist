@@ -11,9 +11,10 @@
 *   **Web-Based Tactical Dashboard (Web UI)**: A brand-new decoupled architecture providing a high-quality, graphical recommendation interface with real-time animations via the browser.
 *   **High-Performance Screen Capture**: Supports `dxcam` (DirectX high-speed capture) and `mss`, ensuring low latency and low resource consumption.
 *   **Tactical Recommendation Engine**:
-    *   Automatically determines the attack/defense phase.
+    *   Automatically determines the attack/defense phase based on UI screenshot matching (triggering accurate YOLO recognition).
     *   Analyzes the team's missing roles (e.g., Hard Breach, Intel, Healing, etc.).
     *   Provides real-time scoring and operator swap recommendations.
+    *   Persistent Web UI state that retains the last recognized result when swapping screens, with a warning if the data is outdated.
 
 ## 🛠️ Installation
 
@@ -47,7 +48,7 @@
 ### 1. Train or Prepare the Model (Important)
 This project requires a trained YOLOv8 classification model to function.
 *   Place the trained model file in the default path (usually automatically searched at `runs/classify/train/weights/best.pt`).
-*   If you don't have a model yet, refer to `generate_dataset.py` and `train.py` to collect data and train it yourself.
+*   If you don't have a model yet, refer to `generate_dataset.py`, `train.py`, and the newly integrated `transfer_train.py` in the `training_tools/` directory to collect data and train or fine-tune your own model.
 
 ### 2. Start Real-Time Monitoring (Recommended: Use the GUI Launcher)
 
@@ -107,7 +108,7 @@ python core/assistant.py
     *   `logic.py`: Tactical logic module for calculating team scores and recommendations.
     *   `matcher_yolo.py`: YOLO model loading and prediction implementation.
     *   `collector.py`: Module for custom screen collection and data storage.
-*   `tools/`: Development auxiliary tools including training, dataset generation, and raw icon scraping (`generate_dataset.py`, `train.py`, `get_op_stat.py`, etc.).
+*   `tools/` & `training_tools/`: Development auxiliary tools including training, transfer learning script (`transfer_train.py`), dataset generation, and raw icon scraping.
 *   `data/op_stats.json`: Operator database defining the faction, role, and scoring weight of each operator.
 
 ## ⚠️ Disclaimer
