@@ -13,7 +13,7 @@ cache: false
 device: cpu
 workers: 8
 project: c:\Users\eddie\Desktop\Utility\R6Assist\runs\classify
-name: r6_operator_finetune
+name: r6_operator_classifier
 exist_ok: true
 pretrained: true
 optimizer: auto
@@ -103,4 +103,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: botsort.yaml
-save_dir: C:\Users\eddie\Desktop\Utility\R6Assist\runs\classify\r6_operator_finetune
+save_dir: C:\Users\eddie\Desktop\Utility\R6Assist\runs\classify\r6_operator_classifier
