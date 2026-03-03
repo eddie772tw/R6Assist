@@ -47,31 +47,31 @@
             "Difficulty:": "Easy"
         }
     },
-    "Thermite": {
-        "name": "Thermite",
+    "Thatcher": {
+        "name": "Thatcher",
         "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Thermite",
+        "url": "https://liquipedia.net/rainbowsix/Thatcher",
         "role": [
-            "Breach",
+            "Anti-Gadget",
             "Support"
         ],
-        "speed": "Medium",
-        "health": "Medium (110 HP)",
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
         "details": {
-            "Real Name:": "Jordan Trace",
-            "Born:": "March 14, 1982 Plano, Texas (age 43)",
+            "Real Name:": "Mike Baker",
+            "Born:": "June 22, 1961 Bideford (age 64)",
             "Team:": "Attack",
-            "Operator Role:": "BreachSupport",
-            "Team Rainbow:": "Redhammer",
-            "Affiliation:": "SWAT",
+            "Operator Role:": "Anti-GadgetSupport",
+            "Team Rainbow:": "Viperstrike",
+            "Affiliation:": "S.A.S.",
             "Released:": "Launch2015-12-01",
-            "Height:": "1.78 m",
-            "Weight:": "80 kg",
+            "Height:": "1.80 m",
+            "Weight:": "72 kg",
             "Renown price:": "300270 SP",
             "Has Elite Skin:": "Yes",
             "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Medium (110 HP)",
-            "Speed:": "Medium",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
             "Difficulty:": "Easy"
         }
     },
@@ -103,31 +103,31 @@
             "Difficulty:": "Normal"
         }
     },
-    "Thatcher": {
-        "name": "Thatcher",
+    "Thermite": {
+        "name": "Thermite",
         "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Thatcher",
+        "url": "https://liquipedia.net/rainbowsix/Thermite",
         "role": [
-            "Anti-Gadget",
+            "Breach",
             "Support"
         ],
-        "speed": "Slow",
-        "health": "Heavy (125 HP)",
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
         "details": {
-            "Real Name:": "Mike Baker",
-            "Born:": "June 22, 1961 Bideford (age 64)",
+            "Real Name:": "Jordan Trace",
+            "Born:": "March 14, 1982 Plano, Texas (age 43)",
             "Team:": "Attack",
-            "Operator Role:": "Anti-GadgetSupport",
-            "Team Rainbow:": "Viperstrike",
-            "Affiliation:": "S.A.S.",
+            "Operator Role:": "BreachSupport",
+            "Team Rainbow:": "Redhammer",
+            "Affiliation:": "SWAT",
             "Released:": "Launch2015-12-01",
-            "Height:": "1.80 m",
-            "Weight:": "72 kg",
+            "Height:": "1.78 m",
+            "Weight:": "80 kg",
             "Renown price:": "300270 SP",
             "Has Elite Skin:": "Yes",
             "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Heavy (125 HP)",
-            "Speed:": "Slow",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
             "Difficulty:": "Easy"
         }
     },
@@ -184,6 +184,62 @@
             "Availability:": "CasualRankedCompetitive",
             "Armor/Health:": "Heavy (125 HP)",
             "Speed:": "Slow",
+            "Difficulty:": "Hard"
+        }
+    },
+    "Glaz": {
+        "name": "Glaz",
+        "side": "atk",
+        "url": "https://liquipedia.net/rainbowsix/Glaz",
+        "role": [
+            "Intel",
+            "Support"
+        ],
+        "speed": "Fast",
+        "health": "Light (100 HP)",
+        "details": {
+            "Real Name:": "Timur Glazkov",
+            "Born:": "July  2, 1987 Vladivostok (age 38)",
+            "Team:": "Attack",
+            "Operator Role:": "IntelSupport",
+            "Team Rainbow:": "Ghosteyes",
+            "Affiliation:": "Spetsnaz",
+            "Released:": "Launch2015-12-01",
+            "Height:": "1.78 m",
+            "Weight:": "79 kg",
+            "Renown price:": "300270 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Light (100 HP)",
+            "Speed:": "Fast",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Blitz": {
+        "name": "Blitz",
+        "side": "atk",
+        "url": "https://liquipedia.net/rainbowsix/Blitz",
+        "role": [
+            "Front Line",
+            "Map Control"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Elias Kötz",
+            "Born:": "April  2, 1980 Bremen (age 45)",
+            "Team:": "Attack",
+            "Operator Role:": "Front LineMap Control",
+            "Team Rainbow:": "Viperstrike",
+            "Affiliation:": "GSG 9",
+            "Released:": "Launch2015-12-01",
+            "Height:": "1.75 m",
+            "Weight:": "75 kg",
+            "Renown price:": "300270 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
             "Difficulty:": "Hard"
         }
     },
@@ -271,62 +327,6 @@
             "Difficulty:": "Easy"
         }
     },
-    "Glaz": {
-        "name": "Glaz",
-        "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Glaz",
-        "role": [
-            "Intel",
-            "Support"
-        ],
-        "speed": "Fast",
-        "health": "Light (100 HP)",
-        "details": {
-            "Real Name:": "Timur Glazkov",
-            "Born:": "July  2, 1987 Vladivostok (age 38)",
-            "Team:": "Attack",
-            "Operator Role:": "IntelSupport",
-            "Team Rainbow:": "Ghosteyes",
-            "Affiliation:": "Spetsnaz",
-            "Released:": "Launch2015-12-01",
-            "Height:": "1.78 m",
-            "Weight:": "79 kg",
-            "Renown price:": "300270 SP",
-            "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Light (100 HP)",
-            "Speed:": "Fast",
-            "Difficulty:": "Normal"
-        }
-    },
-    "Blitz": {
-        "name": "Blitz",
-        "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Blitz",
-        "role": [
-            "Front Line",
-            "Map Control"
-        ],
-        "speed": "Medium",
-        "health": "Medium (110 HP)",
-        "details": {
-            "Real Name:": "Elias Kötz",
-            "Born:": "April  2, 1980 Bremen (age 45)",
-            "Team:": "Attack",
-            "Operator Role:": "Front LineMap Control",
-            "Team Rainbow:": "Viperstrike",
-            "Affiliation:": "GSG 9",
-            "Released:": "Launch2015-12-01",
-            "Height:": "1.75 m",
-            "Weight:": "75 kg",
-            "Renown price:": "300270 SP",
-            "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Medium (110 HP)",
-            "Speed:": "Medium",
-            "Difficulty:": "Hard"
-        }
-    },
     "Blackbeard": {
         "name": "Blackbeard",
         "side": "atk",
@@ -354,6 +354,35 @@
             "Armor/Health:": "Heavy (125 HP)",
             "Speed:": "Slow",
             "Difficulty:": "Normal"
+        }
+    },
+    "Hibana": {
+        "name": "Hibana",
+        "side": "atk",
+        "url": "https://liquipedia.net/rainbowsix/Hibana",
+        "role": [
+            "Breach",
+            "Front Line"
+        ],
+        "speed": "Fast",
+        "health": "Light (100 HP)",
+        "details": {
+            "Real Name:": "Yumiko Imagawa",
+            "Born:": "July 12, 1983 Nagoya (age 42)",
+            "Team:": "Attack",
+            "Operator Role:": "BreachFront Line",
+            "Team Rainbow:": "Viperstrike",
+            "Affiliation:": "S.A.T.",
+            "Released:": "Operation Red Crow2016-11-17",
+            "Height:": "1.73 m",
+            "Weight:": "57 kg",
+            "Renown price:": "10,0009,000 SP",
+            "R6 Credit price:": "240216 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Light (100 HP)",
+            "Speed:": "Fast",
+            "Difficulty:": "Easy"
         }
     },
     "Capitão": {
@@ -414,63 +443,6 @@
             "Difficulty:": "Hard"
         }
     },
-    "Zofia": {
-        "name": "Zofia",
-        "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Zofia",
-        "role": [
-            "Anti-Gadget",
-            "Breach"
-        ],
-        "speed": "Slow",
-        "health": "Heavy (125 HP)",
-        "details": {
-            "Real Name:": "Zofia Bosak",
-            "Born:": "January 28, 1981 Wrocław (age 45)",
-            "Team:": "Attack",
-            "Operator Role:": "Anti-GadgetBreach",
-            "Team Rainbow:": "Ghosteyes",
-            "Affiliation:": "GROM",
-            "Height:": "1.79 m",
-            "Weight:": "72 kg",
-            "Renown price:": "10,0009,000 SP",
-            "R6 Credit price:": "240216 SP",
-            "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Heavy (125 HP)",
-            "Speed:": "Slow",
-            "Difficulty:": "Easy"
-        }
-    },
-    "Hibana": {
-        "name": "Hibana",
-        "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Hibana",
-        "role": [
-            "Breach",
-            "Front Line"
-        ],
-        "speed": "Fast",
-        "health": "Light (100 HP)",
-        "details": {
-            "Real Name:": "Yumiko Imagawa",
-            "Born:": "July 12, 1983 Nagoya (age 42)",
-            "Team:": "Attack",
-            "Operator Role:": "BreachFront Line",
-            "Team Rainbow:": "Viperstrike",
-            "Affiliation:": "S.A.T.",
-            "Released:": "Operation Red Crow2016-11-17",
-            "Height:": "1.73 m",
-            "Weight:": "57 kg",
-            "Renown price:": "10,0009,000 SP",
-            "R6 Credit price:": "240216 SP",
-            "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Light (100 HP)",
-            "Speed:": "Fast",
-            "Difficulty:": "Easy"
-        }
-    },
     "Ying": {
         "name": "Ying",
         "side": "atk",
@@ -500,33 +472,32 @@
             "Difficulty:": "Normal"
         }
     },
-    "Dokkaebi": {
-        "name": "Dokkaebi",
+    "Zofia": {
+        "name": "Zofia",
         "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Dokkaebi",
+        "url": "https://liquipedia.net/rainbowsix/Zofia",
         "role": [
-            "Intel",
-            "Map Control"
+            "Anti-Gadget",
+            "Breach"
         ],
-        "speed": "Fast",
-        "health": "Light (100 HP)",
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
         "details": {
-            "Real Name:": "Grace Nam",
-            "Born:": "February  2, 1988 Seoul (age 38)",
+            "Real Name:": "Zofia Bosak",
+            "Born:": "January 28, 1981 Wrocław (age 45)",
             "Team:": "Attack",
-            "Operator Role:": "IntelMap Control",
-            "Team Rainbow:": "Viperstrike",
-            "Affiliation:": "707th SMB",
-            "Released:": "Operation White Noise2017-12-05",
-            "Height:": "1.69 m",
-            "Weight:": "62 kg",
+            "Operator Role:": "Anti-GadgetBreach",
+            "Team Rainbow:": "Ghosteyes",
+            "Affiliation:": "GROM",
+            "Height:": "1.79 m",
+            "Weight:": "72 kg",
             "Renown price:": "10,0009,000 SP",
             "R6 Credit price:": "240216 SP",
             "Has Elite Skin:": "Yes",
             "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Light (100 HP)",
-            "Speed:": "Fast",
-            "Difficulty:": "Normal"
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Easy"
         }
     },
     "Lion": {
@@ -558,6 +529,35 @@
             "Difficulty:": "Easy"
         }
     },
+    "Dokkaebi": {
+        "name": "Dokkaebi",
+        "side": "atk",
+        "url": "https://liquipedia.net/rainbowsix/Dokkaebi",
+        "role": [
+            "Intel",
+            "Map Control"
+        ],
+        "speed": "Fast",
+        "health": "Light (100 HP)",
+        "details": {
+            "Real Name:": "Grace Nam",
+            "Born:": "February  2, 1988 Seoul (age 38)",
+            "Team:": "Attack",
+            "Operator Role:": "IntelMap Control",
+            "Team Rainbow:": "Viperstrike",
+            "Affiliation:": "707th SMB",
+            "Released:": "Operation White Noise2017-12-05",
+            "Height:": "1.69 m",
+            "Weight:": "62 kg",
+            "Renown price:": "10,0009,000 SP",
+            "R6 Credit price:": "240216 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Light (100 HP)",
+            "Speed:": "Fast",
+            "Difficulty:": "Normal"
+        }
+    },
     "Finka": {
         "name": "Finka",
         "side": "atk",
@@ -585,6 +585,35 @@
             "Armor/Health:": "Medium (110 HP)",
             "Speed:": "Medium",
             "Difficulty:": "Easy"
+        }
+    },
+    "Maverick": {
+        "name": "Maverick",
+        "side": "atk",
+        "url": "https://liquipedia.net/rainbowsix/Maverick",
+        "role": [
+            "Breach",
+            "Front Line"
+        ],
+        "speed": "Fast",
+        "health": "Light (100 HP)",
+        "details": {
+            "Real Name:": "Erik Thorn",
+            "Born:": "April 20, 1982 Boston (age 43)",
+            "Team:": "Attack",
+            "Operator Role:": "BreachFront Line",
+            "Team Rainbow:": "Ghosteyes",
+            "Affiliation:": "The Unit GSUTR",
+            "Released:": "Operation Grim Sky2018-09-04",
+            "Height:": "1.80 m",
+            "Weight:": "82 kg",
+            "Renown price:": "10,0009,000 SP",
+            "R6 Credit price:": "240216 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Light (100 HP)",
+            "Speed:": "Fast",
+            "Difficulty:": "Normal"
         }
     },
     "Nomad": {
@@ -645,33 +674,30 @@
             "Difficulty:": "Easy"
         }
     },
-    "Maverick": {
-        "name": "Maverick",
+    "Nøkk": {
+        "name": "Nøkk",
         "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Maverick",
+        "url": "https://liquipedia.net/rainbowsix/N%C3%B8kk",
         "role": [
-            "Breach",
-            "Front Line"
+            "Front Line",
+            "Map Control"
         ],
-        "speed": "Fast",
-        "health": "Light (100 HP)",
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
         "details": {
-            "Real Name:": "Erik Thorn",
-            "Born:": "April 20, 1982 Boston (age 43)",
+            "Real Name:": "Karina Gaarddhøje",
             "Team:": "Attack",
-            "Operator Role:": "BreachFront Line",
+            "Operator Role:": "Front LineMap Control",
             "Team Rainbow:": "Ghosteyes",
-            "Affiliation:": "The Unit GSUTR",
-            "Released:": "Operation Grim Sky2018-09-04",
-            "Height:": "1.80 m",
-            "Weight:": "82 kg",
-            "Renown price:": "10,0009,000 SP",
-            "R6 Credit price:": "240216 SP",
+            "Affiliation:": "Jægerkorpset",
+            "Released:": "Operation Phantom Sight2019-06-11",
+            "Renown price:": "20,00018,000 SP",
+            "R6 Credit price:": "480432 SP",
             "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Light (100 HP)",
-            "Speed:": "Fast",
-            "Difficulty:": "Normal"
+            "Availability:": "CasualRankedCompetetive ER",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Hard"
         }
     },
     "Amaru": {
@@ -703,30 +729,32 @@
             "Difficulty:": "Normal"
         }
     },
-    "Nøkk": {
-        "name": "Nøkk",
+    "Kali": {
+        "name": "Kali",
         "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/N%C3%B8kk",
+        "url": "https://liquipedia.net/rainbowsix/Kali",
         "role": [
-            "Front Line",
-            "Map Control"
+            "Anti-Gadget",
+            "Support"
         ],
         "speed": "Medium",
         "health": "Medium (110 HP)",
         "details": {
-            "Real Name:": "Karina Gaarddhøje",
+            "Real Name:": "Jaimini Kalimohan Shah",
+            "Born:": "August 21, 1985 Amreli (age 40)",
             "Team:": "Attack",
-            "Operator Role:": "Front LineMap Control",
-            "Team Rainbow:": "Ghosteyes",
-            "Affiliation:": "Jægerkorpset",
-            "Released:": "Operation Phantom Sight2019-06-11",
+            "Operator Role:": "Anti-GadgetSupport",
+            "Team Rainbow:": "Nighthaven",
+            "Released:": "Operation Shifting Tides2019-12-03",
+            "Height:": "1.70 m",
+            "Weight:": "67 kg",
             "Renown price:": "20,00018,000 SP",
             "R6 Credit price:": "480432 SP",
             "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetetive ER",
+            "Availability:": "CasualRankedCompetetive VE",
             "Armor/Health:": "Medium (110 HP)",
             "Speed:": "Medium",
-            "Difficulty:": "Hard"
+            "Difficulty:": "Normal"
         }
     },
     "Iana": {
@@ -758,32 +786,31 @@
             "Difficulty:": "Easy"
         }
     },
-    "Kali": {
-        "name": "Kali",
+    "Ace": {
+        "name": "Ace",
         "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Kali",
+        "url": "https://liquipedia.net/rainbowsix/Ace",
         "role": [
-            "Anti-Gadget",
-            "Support"
+            "Breach",
+            "Anti-Gadget"
         ],
         "speed": "Medium",
         "health": "Medium (110 HP)",
         "details": {
-            "Real Name:": "Jaimini Kalimohan Shah",
-            "Born:": "August 21, 1985 Amreli (age 40)",
+            "Real Name:": "Håvard Haugland",
+            "Born:": "March 15, 1987 Lærdalsøyri (age 38)",
             "Team:": "Attack",
-            "Operator Role:": "Anti-GadgetSupport",
+            "Operator Role:": "BreachAnti-Gadget",
             "Team Rainbow:": "Nighthaven",
-            "Released:": "Operation Shifting Tides2019-12-03",
-            "Height:": "1.70 m",
-            "Weight:": "67 kg",
-            "Renown price:": "20,00018,000 SP",
-            "R6 Credit price:": "480432 SP",
+            "Affiliation:": "NIGHTHAVEN",
+            "Released:": "Operation Steel Wave2020-06-16",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
             "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetetive VE",
+            "Availability:": "CasualRankedCompetetive SL",
             "Armor/Health:": "Medium (110 HP)",
             "Speed:": "Medium",
-            "Difficulty:": "Normal"
+            "Difficulty:": "Easy"
         }
     },
     "Zero": {
@@ -813,31 +840,32 @@
             "Difficulty:": "Easy"
         }
     },
-    "Ace": {
-        "name": "Ace",
+    "Flores": {
+        "name": "Flores",
         "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Ace",
+        "url": "https://liquipedia.net/rainbowsix/Flores",
         "role": [
-            "Breach",
-            "Anti-Gadget"
+            "Anti-Gadget",
+            "Intel"
         ],
         "speed": "Medium",
         "health": "Medium (110 HP)",
         "details": {
-            "Real Name:": "Håvard Haugland",
-            "Born:": "March 15, 1987 Lærdalsøyri (age 38)",
+            "Real Name:": "Santiago Miguel Lucero",
+            "Born:": "October  2, 1982 Buenos Aires (age 43)",
             "Team:": "Attack",
-            "Operator Role:": "BreachAnti-Gadget",
-            "Team Rainbow:": "Nighthaven",
-            "Affiliation:": "NIGHTHAVEN",
-            "Released:": "Operation Steel Wave2020-06-16",
+            "Operator Role:": "Anti-GadgetIntel",
+            "Team Rainbow:": "Ghosteyes",
+            "Released:": "Operation Crimson Heist2021-03-16",
+            "Height:": "1.81 m",
+            "Weight:": "72 kg",
             "Renown price:": "25,00022,500 SP",
             "R6 Credit price:": "600540 SP",
             "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetetive SL",
+            "Availability:": "CasualRankedCompetitive  NS",
             "Armor/Health:": "Medium (110 HP)",
             "Speed:": "Medium",
-            "Difficulty:": "Easy"
+            "Difficulty:": "Normal"
         }
     },
     "Osa": {
@@ -865,34 +893,6 @@
             "Availability:": "CasualRankedCompetitive HC",
             "Armor/Health:": "Heavy (125 HP)",
             "Speed:": "Slow",
-            "Difficulty:": "Normal"
-        }
-    },
-    "Flores": {
-        "name": "Flores",
-        "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Flores",
-        "role": [
-            "Anti-Gadget",
-            "Intel"
-        ],
-        "speed": "Medium",
-        "health": "Medium (110 HP)",
-        "details": {
-            "Real Name:": "Santiago Miguel Lucero",
-            "Born:": "October  2, 1982 Buenos Aires (age 43)",
-            "Team:": "Attack",
-            "Operator Role:": "Anti-GadgetIntel",
-            "Team Rainbow:": "Ghosteyes",
-            "Released:": "Operation Crimson Heist2021-03-16",
-            "Height:": "1.81 m",
-            "Weight:": "72 kg",
-            "Renown price:": "25,00022,500 SP",
-            "R6 Credit price:": "600540 SP",
-            "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive  NS",
-            "Armor/Health:": "Medium (110 HP)",
-            "Speed:": "Medium",
             "Difficulty:": "Normal"
         }
     },
@@ -952,30 +952,6 @@
             "Difficulty:": "Easy"
         }
     },
-    "Ram": {
-        "name": "Ram",
-        "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Ram",
-        "role": [
-            "Breach",
-            "Anti-Gadget"
-        ],
-        "speed": "Slow",
-        "health": "Heavy (125 HP)",
-        "details": {
-            "Real Name:": "Bo-Ram Choi",
-            "Born:": "April 25, 1986 Busan, South Korea (age 39)",
-            "Team:": "Attack",
-            "Operator Role:": "BreachAnti-Gadget",
-            "Team Rainbow:": "Redhammer",
-            "Released:": "Operation Heavy Mettle2023-08-29",
-            "Has Elite Skin:": "No",
-            "Availability:": "CasualRankedCompetitive HM",
-            "Armor/Health:": "Heavy (125 HP)",
-            "Speed:": "Slow",
-            "Difficulty:": "Normal"
-        }
-    },
     "Brava": {
         "name": "Brava",
         "side": "atk",
@@ -1003,29 +979,27 @@
             "Difficulty:": "Hard"
         }
     },
-    "Rauora": {
-        "name": "Rauora",
+    "Ram": {
+        "name": "Ram",
         "side": "atk",
-        "url": "https://liquipedia.net/rainbowsix/Rauora",
+        "url": "https://liquipedia.net/rainbowsix/Ram",
         "role": [
-            "Support",
-            "Map Control"
+            "Breach",
+            "Anti-Gadget"
         ],
-        "speed": "Medium",
-        "health": "Medium (110 HP)",
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
         "details": {
-            "Real Name:": "Hāpai Iwini",
-            "Born:": "May 11, 1996 Christchurch, New Zealand (age 29)",
+            "Real Name:": "Bo-Ram Choi",
+            "Born:": "April 25, 1986 Busan, South Korea (age 39)",
             "Team:": "Attack",
-            "Operator Role:": "SupportMap Control",
-            "Team Rainbow:": "Viperstrike",
-            "Released:": "Operation Prep Phase2025-03-04",
-            "Renown price:": "25,00022,500 SP",
-            "R6 Credit price:": "600540 SP",
+            "Operator Role:": "BreachAnti-Gadget",
+            "Team Rainbow:": "Redhammer",
+            "Released:": "Operation Heavy Mettle2023-08-29",
             "Has Elite Skin:": "No",
-            "Availability:": "CasualRankedCompetitive PP",
-            "Armor/Health:": "Medium (110 HP)",
-            "Speed:": "Medium",
+            "Availability:": "CasualRankedCompetitive HM",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
             "Difficulty:": "Normal"
         }
     },
@@ -1047,6 +1021,32 @@
             "Released:": "Operation Deadly Omen2024-02-24",
             "Has Elite Skin:": "No",
             "Availability:": "CasualRankedCompetitive DO",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Rauora": {
+        "name": "Rauora",
+        "side": "atk",
+        "url": "https://liquipedia.net/rainbowsix/Rauora",
+        "role": [
+            "Support",
+            "Map Control"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Hāpai Iwini",
+            "Born:": "May 11, 1996 Christchurch, New Zealand (age 29)",
+            "Team:": "Attack",
+            "Operator Role:": "SupportMap Control",
+            "Team Rainbow:": "Viperstrike",
+            "Released:": "Operation Prep Phase2025-03-04",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetitive PP",
             "Armor/Health:": "Medium (110 HP)",
             "Speed:": "Medium",
             "Difficulty:": "Normal"
@@ -1100,6 +1100,33 @@
             "Difficulty:": "Normal"
         }
     },
+    "Mute": {
+        "name": "Mute",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Mute",
+        "role": [
+            "Anti-Gadget",
+            "Crowd Control"
+        ],
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
+        "details": {
+            "Real Name:": "Mark Chander",
+            "Born:": "October 11, 1991 York (age 34)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-GadgetCrowd Control",
+            "Team Rainbow:": "Viperstrike",
+            "Affiliation:": "S.A.S.",
+            "Height:": "1.85 m",
+            "Weight:": "80 kg",
+            "Renown price:": "300270 SP",
+            "Has Elite Skin:": "Yes2 skins",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Easy"
+        }
+    },
     "Castle": {
         "name": "Castle",
         "side": "def",
@@ -1126,33 +1153,6 @@
             "Armor/Health:": "Medium (110 HP)",
             "Speed:": "Medium",
             "Difficulty:": "Normal"
-        }
-    },
-    "Mute": {
-        "name": "Mute",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Mute",
-        "role": [
-            "Anti-Gadget",
-            "Crowd Control"
-        ],
-        "speed": "Slow",
-        "health": "Heavy (125 HP)",
-        "details": {
-            "Real Name:": "Mark Chander",
-            "Born:": "October 11, 1991 York (age 34)",
-            "Team:": "Defense",
-            "Operator Role:": "Anti-GadgetCrowd Control",
-            "Team Rainbow:": "Viperstrike",
-            "Affiliation:": "S.A.S.",
-            "Height:": "1.85 m",
-            "Weight:": "80 kg",
-            "Renown price:": "300270 SP",
-            "Has Elite Skin:": "Yes2 skins",
-            "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Heavy (125 HP)",
-            "Speed:": "Slow",
-            "Difficulty:": "Easy"
         }
     },
     "Pulse": {
@@ -1210,6 +1210,33 @@
             "Difficulty:": "Easy"
         }
     },
+    "Rook": {
+        "name": "Rook",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Rook",
+        "role": [
+            "Support"
+        ],
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
+        "details": {
+            "Real Name:": "Julien Nizan",
+            "Born:": "January  6, 1990 Tours (age 36)",
+            "Team:": "Defense",
+            "Operator Role:": "Support",
+            "Team Rainbow:": "Viperstrike",
+            "Affiliation:": "GIGN",
+            "Released:": "Launch2015-12-01",
+            "Height:": "1.75 m",
+            "Weight:": "72 kg",
+            "Renown price:": "300270 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Easy"
+        }
+    },
     "Kapkan": {
         "name": "Kapkan",
         "side": "def",
@@ -1235,33 +1262,6 @@
             "Availability:": "CasualRankedCompetitive",
             "Armor/Health:": "Medium (110 HP)",
             "Speed:": "Medium",
-            "Difficulty:": "Easy"
-        }
-    },
-    "Rook": {
-        "name": "Rook",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Rook",
-        "role": [
-            "Support"
-        ],
-        "speed": "Slow",
-        "health": "Heavy (125 HP)",
-        "details": {
-            "Real Name:": "Julien Nizan",
-            "Born:": "January  6, 1990 Tours (age 36)",
-            "Team:": "Defense",
-            "Operator Role:": "Support",
-            "Team Rainbow:": "Viperstrike",
-            "Affiliation:": "GIGN",
-            "Released:": "Launch2015-12-01",
-            "Height:": "1.75 m",
-            "Weight:": "72 kg",
-            "Renown price:": "300270 SP",
-            "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Heavy (125 HP)",
-            "Speed:": "Slow",
             "Difficulty:": "Easy"
         }
     },
@@ -1349,6 +1349,35 @@
             "Difficulty:": "Easy"
         }
     },
+    "Frost": {
+        "name": "Frost",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Frost",
+        "role": [
+            "Anti-Entry",
+            "Trapper"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Tina Lin Tsang",
+            "Born:": "March  4, 1985 Vancouver (age 40)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-EntryTrapper",
+            "Team Rainbow:": "Wolfguard",
+            "Affiliation:": "JTF2",
+            "Released:": "Operation Black Ice2016-02-02",
+            "Height:": "1.72 m",
+            "Weight:": "63 kg",
+            "Renown price:": "10,0009,000 SP",
+            "R6 Credit price:": "240216 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Easy"
+        }
+    },
     "Valkyrie": {
         "name": "Valkyrie",
         "side": "def",
@@ -1405,35 +1434,6 @@
             "Armor/Health:": "Light (100 HP)",
             "Speed:": "Fast",
             "Difficulty:": "Hard"
-        }
-    },
-    "Frost": {
-        "name": "Frost",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Frost",
-        "role": [
-            "Anti-Entry",
-            "Trapper"
-        ],
-        "speed": "Medium",
-        "health": "Medium (110 HP)",
-        "details": {
-            "Real Name:": "Tina Lin Tsang",
-            "Born:": "March  4, 1985 Vancouver (age 40)",
-            "Team:": "Defense",
-            "Operator Role:": "Anti-EntryTrapper",
-            "Team Rainbow:": "Wolfguard",
-            "Affiliation:": "JTF2",
-            "Released:": "Operation Black Ice2016-02-02",
-            "Height:": "1.72 m",
-            "Weight:": "63 kg",
-            "Renown price:": "10,0009,000 SP",
-            "R6 Credit price:": "240216 SP",
-            "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive",
-            "Armor/Health:": "Medium (110 HP)",
-            "Speed:": "Medium",
-            "Difficulty:": "Easy"
         }
     },
     "Echo": {
@@ -1523,6 +1523,34 @@
             "Difficulty:": "Easy"
         }
     },
+    "Ela": {
+        "name": "Ela",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Ela",
+        "role": [
+            "Trapper",
+            "Crowd Control"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Elżbieta Bosak",
+            "Born:": "November  8, 1985 Wrocław (age 40)",
+            "Team:": "Defense",
+            "Operator Role:": "TrapperCrowd Control",
+            "Team Rainbow:": "Nighthaven",
+            "Affiliation:": "GROM",
+            "Height:": "1.73 m",
+            "Weight:": "68 kg",
+            "Renown price:": "10,0009,000 SP",
+            "R6 Credit price:": "240216 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Easy"
+        }
+    },
     "Vigil": {
         "name": "Vigil",
         "side": "def",
@@ -1581,28 +1609,406 @@
             "Difficulty:": "Hard"
         }
     },
-    "Clash": {
-        "name": "Clash",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Clash",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
     "Maestro": {
         "name": "Maestro",
         "side": "def",
         "url": "https://liquipedia.net/rainbowsix/Maestro",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
+        "role": [
+            "Anti-Gadget",
+            "Intel"
+        ],
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
+        "details": {
+            "Real Name:": "Adriano Martello",
+            "Born:": "April 13, 1973 Rome (age 52)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-GadgetIntel",
+            "Team Rainbow:": "Viperstrike",
+            "Affiliation:": "G.I.S",
+            "Released:": "Operation Para Bellum2018-06-07",
+            "Height:": "1.85 m",
+            "Weight:": "87 kg",
+            "Renown price:": "15,00013,500 SP",
+            "R6 Credit price:": "360324 SP",
+            "Has Elite Skin:": "Yes2024-11-17",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Normal"
+        }
     },
-    "Ela": {
-        "name": "Ela",
+    "Clash": {
+        "name": "Clash",
         "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Ela",
+        "url": "https://liquipedia.net/rainbowsix/Clash",
+        "role": [
+            "Intel",
+            "Crowd Control"
+        ],
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
+        "details": {
+            "Real Name:": "Morowa Evans",
+            "Born:": "June  7, 1983 London (age 42)",
+            "Team:": "Defense",
+            "Operator Role:": "IntelCrowd Control",
+            "Team Rainbow:": "Wolfguard",
+            "Affiliation:": "MPS GSUTR",
+            "Released:": "Operation Grim Sky2018-09-04",
+            "Height:": "1.79 m",
+            "Weight:": "73 kg",
+            "Renown price:": "10,0009,000 SP",
+            "R6 Credit price:": "240216 SP",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetitive",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Hard"
+        }
+    },
+    "Mozzie": {
+        "name": "Mozzie",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Mozzie",
+        "role": [
+            "Anti-Gadget",
+            "Intel"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Max Goose",
+            "Born:": "February 15, 1984 Portland (age 42)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-GadgetIntel",
+            "Team Rainbow:": "Ghosteyes",
+            "Affiliation:": "SASR",
+            "Released:": "Operation Burnt Horizon2019-03-06",
+            "Height:": "1.62 m",
+            "Weight:": "57 kg",
+            "Renown price:": "15,00013,500 SP",
+            "R6 Credit price:": "360324 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive PS",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Kaid": {
+        "name": "Kaid",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Kaid",
+        "role": [
+            "Anti-Entry",
+            "Anti-Gadget"
+        ],
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
+        "details": {
+            "Real Name:": "Jalal El Fassi",
+            "Born:": "June 26, 1960 Aroumd, Morocco (age 65)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-EntryAnti-Gadget",
+            "Team Rainbow:": "Redhammer",
+            "Affiliation:": "GIGR",
+            "Released:": "Operation Wind Bastion2018-12-04",
+            "Renown price:": "15,00013,500 SP",
+            "R6 Credit price:": "360324 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive BH",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Warden": {
+        "name": "Warden",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Warden_(Operator)",
+        "role": [
+            "Anti-Gadget",
+            "Intel"
+        ],
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
+        "details": {
+            "Real Name:": "Collinn McKinley",
+            "Born:": "March 18, 1971 Louisville (age 54)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-GadgetIntel",
+            "Team Rainbow:": "Ghosteyes",
+            "Affiliation:": "Secret Service",
+            "Released:": "Operation Phantom Sight2019-06-11",
+            "Height:": "1.83 m",
+            "Weight:": "80 kg",
+            "Renown price:": "20,00018,000 SP",
+            "R6 Credit price:": "480432 SP",
+            "Has Elite Skin:": "Yes2022-09-27",
+            "Availability:": "CasualRankedCompetetive ER",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Goyo": {
+        "name": "Goyo",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Goyo",
+        "role": [
+            "Anti-Entry",
+            "Trapper"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "César Ruiz Hernández",
+            "Born:": "June 20, 1988 Culiacán Rosales (age 37)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-EntryTrapper",
+            "Team Rainbow:": "Redhammer",
+            "Affiliation:": "FES",
+            "Released:": "Operation Ember Rise2019-09-11",
+            "Height:": "1.71 m",
+            "Weight:": "83 kg",
+            "Renown price:": "15,00013,500 SP",
+            "R6 Credit price:": "360324 SP",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetitive ST",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Wamai": {
+        "name": "Wamai",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Wamai",
+        "role": [
+            "Anti-Gadget",
+            "Trapper"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Ngũgĩ Muchoki Furaha",
+            "Born:": "June  1, 1991 Lamu (age 34)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-GadgetTrapper",
+            "Team Rainbow:": "Nighthaven",
+            "Released:": "Operation Shifting Tides2019-12-03",
+            "Height:": "1.87 m",
+            "Weight:": "83 kg",
+            "Renown price:": "20,00018,000 SP",
+            "R6 Credit price:": "480432 SP",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetetive VE",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Oryx": {
+        "name": "Oryx",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Oryx",
+        "role": [
+            "Support"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Saif Al Hadid",
+            "Born:": "July  3, 1975 Azraq (age 50)",
+            "Team:": "Defense",
+            "Operator Role:": "Support",
+            "Team Rainbow:": "Redhammer",
+            "Released:": "Operation Void Edge2020-03-10",
+            "Height:": "1.95 m",
+            "Weight:": "130 kg",
+            "Renown price:": "20,00018,000 SP",
+            "R6 Credit price:": "480432 SP",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetitive SW",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Melusi": {
+        "name": "Melusi",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Melusi",
+        "role": [
+            "Crowd Control",
+            "Intel"
+        ],
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
+        "details": {
+            "Real Name:": "Thandiwe Ndlovu",
+            "Born:": "June 16, 1988 Louwsburg (age 37)",
+            "Team:": "Defense",
+            "Operator Role:": "Crowd ControlIntel",
+            "Team Rainbow:": "Wolfguard",
+            "Affiliation:": "ITF",
+            "Released:": "Operation Steel Wave2020-06-16",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive SL",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Easy"
+        }
+    },
+    "Aruni": {
+        "name": "Aruni",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Aruni",
+        "role": [
+            "Anti-Entry",
+            "Anti-Gadget"
+        ],
+        "speed": "Slow",
+        "health": "Heavy (125 HP)",
+        "details": {
+            "Real Name:": "Apha Tawanroong",
+            "Born:": "August  9, 1978 Ta Phraya District (age 47)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-EntryAnti-Gadget",
+            "Team Rainbow:": "Nighthaven",
+            "Released:": "Operation Neon Dawn2020-12-01",
+            "Height:": "1.60 m",
+            "Weight:": "58 kg",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive CH",
+            "Armor/Health:": "Heavy (125 HP)",
+            "Speed:": "Slow",
+            "Difficulty:": "Normal"
+        }
+    },
+    "Thunderbird": {
+        "name": "Thunderbird",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Thunderbird",
+        "role": [
+            "Support"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Mina Sky",
+            "Born:": "April  1, 1985 Nakoda Teritories (age 40)",
+            "Team:": "Defense",
+            "Operator Role:": "Support",
+            "Team Rainbow:": "Wolfguard",
+            "Affiliation:": "STAR-NET Aviation",
+            "Released:": "Operation North Star2021-06-14",
+            "Height:": "1.72 m",
+            "Weight:": "70 kg",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetetive CG",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Easy"
+        }
+    },
+    "Thorn": {
+        "name": "Thorn",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Thorn",
+        "role": [
+            "Anti-Entry",
+            "Trapper"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Brianna Skehan",
+            "Born:": "June 18, 1993 County Kildare, Ireland (age 32)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-EntryTrapper",
+            "Team Rainbow:": "Redhammer",
+            "Affiliation:": "Garda Emergency Response Unit",
+            "Released:": "Operation High Calibre2021-11-30",
+            "Height:": "1.88 m",
+            "Weight:": "78 kg",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetetive DV",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Easy"
+        }
+    },
+    "Azami": {
+        "name": "Azami",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Azami",
+        "role": [
+            "Anti-Entry",
+            "Support"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Kana Fujiwara",
+            "Born:": "September  6, 1993 Kyoto, Japan (age 32)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-EntrySupport",
+            "Team Rainbow:": "Viperstrike",
+            "Released:": "Operation Demon Veil2022-03-15",
+            "Height:": "1.64 m",
+            "Weight:": "56.7 kg",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
+            "Has Elite Skin:": "Yes",
+            "Availability:": "CasualRankedCompetitive VG",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Hard"
+        }
+    },
+    "Solis": {
+        "name": "Solis",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Solis",
+        "role": [
+            "Intel",
+            "Support"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Ana Valentina Díaz",
+            "Born:": "September 18, 1985 Zipaquirá, Colombia (age 40)",
+            "Team:": "Defense",
+            "Operator Role:": "IntelSupport",
+            "Team Rainbow:": "Ghosteyes",
+            "Affiliation:": "AFEAU",
+            "Released:": "Operation Solar Raid2022-11-21",
+            "Height:": "1.66 m",
+            "Weight:": "65 kg",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetetive SR",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Hard"
+        }
+    },
+    "Fenrir": {
+        "name": "Fenrir",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Fenrir",
         "role": [
             "Trapper",
             "Crowd Control"
@@ -1610,183 +2016,137 @@
         "speed": "Medium",
         "health": "Medium (110 HP)",
         "details": {
-            "Real Name:": "Elżbieta Bosak",
-            "Born:": "November  8, 1985 Wrocław (age 40)",
+            "Real Name:": "Emil Svensson",
+            "Born:": "December  3, 1989 Uppsala, Sweden (age 36)",
             "Team:": "Defense",
             "Operator Role:": "TrapperCrowd Control",
-            "Team Rainbow:": "Nighthaven",
-            "Affiliation:": "GROM",
-            "Height:": "1.73 m",
-            "Weight:": "68 kg",
-            "Renown price:": "10,0009,000 SP",
-            "R6 Credit price:": "240216 SP",
+            "Team Rainbow:": "Redhammer",
+            "Released:": "Operation Dread Factor2023-05-30",
+            "Height:": "1.76 m",
+            "Weight:": "74 kg",
             "Has Elite Skin:": "Yes",
-            "Availability:": "CasualRankedCompetitive",
+            "Availability:": "CasualRankedCompetetive DF",
             "Armor/Health:": "Medium (110 HP)",
             "Speed:": "Medium",
-            "Difficulty:": "Easy"
+            "Difficulty:": "Hard"
         }
-    },
-    "Kaid": {
-        "name": "Kaid",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Kaid",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Mozzie": {
-        "name": "Mozzie",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Mozzie",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Warden": {
-        "name": "Warden",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Warden_(Operator)",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Goyo": {
-        "name": "Goyo",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Goyo",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Wamai": {
-        "name": "Wamai",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Wamai",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Oryx": {
-        "name": "Oryx",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Oryx",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Melusi": {
-        "name": "Melusi",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Melusi",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Aruni": {
-        "name": "Aruni",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Aruni",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Thunderbird": {
-        "name": "Thunderbird",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Thunderbird",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Thorn": {
-        "name": "Thorn",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Thorn",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Azami": {
-        "name": "Azami",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Azami",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Solis": {
-        "name": "Solis",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Solis",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Fenrir": {
-        "name": "Fenrir",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Fenrir",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
     },
     "Tubarao": {
         "name": "Tubarao",
         "side": "def",
         "url": "https://liquipedia.net/rainbowsix/Tubarao",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
+        "role": [
+            "Anti-Entry",
+            "Anti-Gadget"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Isaac Nunes Oliviera",
+            "Born:": "November 24, 1988 Ponta Delgada, Azores, Portugal (age 37)",
+            "Team:": "Defense",
+            "Operator Role:": "Anti-EntryAnti-Gadget",
+            "Team Rainbow:": "Wolfguard",
+            "Released:": "Operation Deep Freeze2023-12-06",
+            "Height:": "1.73 m",
+            "Weight:": "69 kg",
+            "Renown price:": "25,00022,500 SP",
+            "R6 Credit price:": "600540 SP",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetitive DF",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Normal"
+        }
     },
     "Skopós": {
         "name": "Skopós",
         "side": "def",
         "url": "https://liquipedia.net/rainbowsix/Skop%C3%B3s",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Denari": {
-        "name": "Denari",
-        "side": "def",
-        "url": "https://liquipedia.net/rainbowsix/Denari",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
-    },
-    "Recruit (ATK)": {
-        "name": "Recruit (ATK)",
-        "side": "recruit",
-        "url": "https://liquipedia.net/rainbowsix/Recruit/Attack",
-        "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
+        "role": [
+            "Intel",
+            "Support"
+        ],
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Real Name:": "Kure Galanos",
+            "Born:": "July 25, 1982 Nicosia, Cyprus (age 43)",
+            "Team:": "Defense",
+            "Operator Role:": "IntelSupport",
+            "Team Rainbow:": "Wolfguard",
+            "Affiliation:": "Hellenic Armed Forces",
+            "Released:": "Operation Twin Shells2024-09-10",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetitive TS",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium",
+            "Difficulty:": "Normal"
+        }
     },
     "Recruit (DEF)": {
         "name": "Recruit (DEF)",
         "side": "recruit",
         "url": "https://liquipedia.net/rainbowsix/Recruit/Defense",
         "role": "Unknown",
-        "speed": "Unknown",
-        "health": "Unknown",
-        "details": {}
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Team:": "Defense",
+            "Released:": "Launch2015-12-01",
+            "Has Elite Skin:": "No",
+            "Availability:": "Casual",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium"
+        }
+    },
+    "Denari": {
+        "name": "Denari",
+        "side": "def",
+        "url": "https://liquipedia.net/rainbowsix/Denari",
+        "role": [
+            "Anti-Entry",
+            "Crowd Control"
+        ],
+        "speed": "Fast",
+        "health": "Light (100 HP)",
+        "details": {
+            "Real Name:": "Leon Winzenried",
+            "Born:": "November 30, 1986 Lugano (age 39)",
+            "Operator Role:": "Anti-EntryCrowd Control",
+            "Released:": "10.1.1 patch2025-09-02",
+            "Has Elite Skin:": "No",
+            "Availability:": "CasualRankedCompetitive DO",
+            "Armor/Health:": "Light (100 HP)",
+            "Speed:": "Fast",
+            "Difficulty:": "Hard"
+        }
+    },
+    "Recruit (ATK)": {
+        "name": "Recruit (ATK)",
+        "side": "recruit",
+        "url": "https://liquipedia.net/rainbowsix/Recruit/Attack",
+        "role": "Unknown",
+        "speed": "Medium",
+        "health": "Medium (110 HP)",
+        "details": {
+            "Team:": "Attack",
+            "Released:": "Launch2015-12-01",
+            "Has Elite Skin:": "No",
+            "Availability:": "Casual",
+            "Armor/Health:": "Medium (110 HP)",
+            "Speed:": "Medium"
+        }
+    },
+    "Solid Snake": {
+        "name": "Solid Snake",
+        "side": "atk",
+        "url": "https://liquipedia.net/rainbowsix/Solid_Snake",
+        "role": [
+            "Intel",
+            "Front Line"
+        ],
+        "speed": "Fast",
+        "health": "Light (100 HP)"
     }
 }

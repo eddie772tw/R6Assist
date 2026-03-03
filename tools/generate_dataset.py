@@ -27,7 +27,6 @@ if sys.stdout.encoding != 'utf-8':
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # --- 設定 ---
-# --- 設定 ---
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 input_folder = os.path.join(base_dir, "raw_icons")  # 你的原始圖標資料夾 (包含 atk/def)
 output_folder = os.path.join(base_dir, "dataset")   # 輸出給 YOLO 訓練用的資料夾
