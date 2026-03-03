@@ -2,5 +2,6 @@
     "language": "zh-tw",
     "api_port": 9527,
     "web_port": 9528,
-    "op_stats_path": "data/op_stats.json"
+    "op_stats_path": "data/op_stats.json",
+    "use_phase_detector": true
 }

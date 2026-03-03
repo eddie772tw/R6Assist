@@ -44,6 +44,23 @@ class GameMonitor:
         # 初始化資料收集器
         self.collector = DataCollector()
         
+        # 初始化戰局鎖定偵測器
+        self.root_dir = os.path.dirname(os.path.abspath(__file__))
+        from core.phase_detector import PhaseDetector
+        self.phase_detector = PhaseDetector(self.root_dir)
+        
+        # 讀取設定
+        self.use_phase_detector = True
+        config_path = os.path.join(self.root_dir, "config.json")
+        try:
+            if os.path.exists(config_path):
+                import json
+                with open(config_path, "r", encoding="utf-8") as f:
+                    cfg = json.load(f)
+                    self.use_phase_detector = cfg.get("use_phase_detector", True)
+        except Exception as e:
+            print(f"Warning: Failed to load config.json for PhaseDetector: {e}")
+        
         # 狀態快取 (State Cache)
         self.last_team_str = ""  # 用字串來比對陣容是否變化
         self.last_side = None
@@ -231,7 +248,32 @@ class GameMonitor:
                     if non_zero_count < 100:
                         frame_changed = False
 
-                # 3. 視覺辨識 & 更新暫存
+                # 3. 判斷是否在選角階段 (Phase Detection)
+                is_in_phase = True
+                if self.use_phase_detector:
+                     is_in_phase = self.phase_detector.detect_phase(img)
+
+                if not is_in_phase:
+                     self.cached_results = None
+                     self.last_frame = img.copy()
+                     self.clear_console()
+                     self.print_line(f"{'='*40}")
+                     self.print_line(f"🔴 R6 TACTICAL MONITOR | FPS: {self.target_fps}")
+                     self.print_line(f"{'='*40}")
+                     self.print_line("\n⏳ 等待戰局開始 / 選角圖標出現...")
+                     
+                     if self.notification and time.time() < self.notification_end_time:
+                          self.print_line(f"\n🔔 訊息: {self.notification}")
+                     else:
+                          self.print_line("\n")
+                          
+                     self.print_line(f"\n{'='*40}")
+                     sys.stdout.write("\033[J")
+                     sys.stdout.flush()
+                     self._wait_for_next_frame(start_time)
+                     continue
+
+                # 4. 視覺辨識 & 更新暫存
                 if frame_changed:
                     self.last_frame = img.copy()
                     team_names, confidences, crop_images = self.assistant.analyzer.analyze_screenshot(img)

@@ -116,11 +116,19 @@ class R6AssistLauncher(ctk.CTk):
         self.lang_label.grid(row=11, column=0, padx=20, pady=(5, 0))
         
         self.lang_combo = ctk.CTkComboBox(self.sidebar_frame, values=["English (en-us)", "繁體中文 (zh-tw)"], command=self.change_language)
-        self.lang_combo.grid(row=12, column=0, padx=20, pady=(0, 20))
+        self.lang_combo.grid(row=12, column=0, padx=20, pady=(0, 10))
         if self.lm.current_lang == "zh-tw":
             self.lang_combo.set("繁體中文 (zh-tw)")
         else:
             self.lang_combo.set("English (en-us)")
+            
+        # Phase Detector Switch
+        self.phase_detector_switch = ctk.CTkSwitch(self.sidebar_frame, text="使用圖標鎖定戰局", command=self.toggle_phase_detector)
+        self.phase_detector_switch.grid(row=13, column=0, padx=20, pady=(0, 20))
+        if self.config.get("use_phase_detector", True):
+            self.phase_detector_switch.select()
+        else:
+            self.phase_detector_switch.deselect()
 
         # --- Main View (Logs) ---
         self.main_frame = ctk.CTkFrame(self, corner_radius=10)
@@ -160,6 +168,11 @@ class R6AssistLauncher(ctk.CTk):
         except Exception as e:
             print(f"Failed to save config: {e}")
 
+    def toggle_phase_detector(self):
+        self.config["use_phase_detector"] = bool(self.phase_detector_switch.get())
+        self.save_config()
+        self.append_log(f"Phase Detector -> {'Enabled' if self.config['use_phase_detector'] else 'Disabled'}")
+
     def change_language(self, choice):
         if choice == "繁體中文 (zh-tw)":
             lang_code = "zh-tw"
@@ -185,6 +198,8 @@ class R6AssistLauncher(ctk.CTk):
         self.console_title.configure(text=self.lm.get("system_logs"))
         self.btn_clear_log.configure(text=self.lm.get("clear_logs"))
         self.lang_label.configure(text=self.lm.get("language"))
+        
+        self.phase_detector_switch.configure(text=self.lm.get("use_phase_detector", "使用圖標鎖定戰局 (Phase Detector)"))
         
         self.update_status_labels()
 
