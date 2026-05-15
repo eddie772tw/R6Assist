@@ -22,19 +22,28 @@ from core.collector import DataCollector
 from flask_cors import CORS
 import json
 
-app = Flask(__name__)
-# Enable CORS for the Vite dev server (usually runs on port 5173 or localhost)
-CORS(app)
-socketio = SocketIO(app, cors_allowed_origins="*")
-
 # Load configuration
 API_PORT = 5000
+WEB_PORT = 5173
 try:
     with open('config.json', 'r', encoding='utf-8') as f:
         config_data = json.load(f)
         API_PORT = config_data.get('api_port', 5000)
+        WEB_PORT = config_data.get('web_port', 5173)
 except Exception as e:
     print(f"⚠️ Could not load config.json (using default port 5000): {e}")
+
+app = Flask(__name__)
+
+# Secure CORS configuration
+allowed_origins = [
+    f"http://localhost:{WEB_PORT}",
+    f"http://127.0.0.1:{WEB_PORT}"
+]
+
+# Enable CORS for the Vite dev server
+CORS(app, origins=allowed_origins)
+socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
 
 # Create a global state to keep track of the monitoring thread
 monitoring_thread = None
