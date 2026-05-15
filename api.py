@@ -216,5 +216,5 @@ def archive_capture():
 
 if __name__ == '__main__':
     print(f"Starting Flask-SocketIO Server on port {API_PORT}...")
-    socketio.run(app, host='0.0.0.0', port=API_PORT, debug=False, log_output=False)
+    socketio.run(app, host='127.0.0.1', port=API_PORT, debug=False, log_output=False)
 
