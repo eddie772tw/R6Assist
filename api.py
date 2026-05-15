@@ -19,7 +19,6 @@ except ImportError:
 from core.assistant import R6TacticalAssistant
 from core.collector import DataCollector
 
-from flask_cors import CORS
 import json
 
 app = Flask(__name__)
