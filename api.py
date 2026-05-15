@@ -105,7 +105,9 @@ def monitoring_loop():
             small_curr = cv2.resize(img, (64, 64))
             small_last = cv2.resize(last_frame, (64, 64))
             diff = cv2.absdiff(small_curr, small_last)
-            if np.count_nonzero(diff) < 100:
+            gray_diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+            _, diff_thresh = cv2.threshold(gray_diff, 30, 255, cv2.THRESH_BINARY)
+            if cv2.countNonZero(diff_thresh) < 100:
                 frame_changed = False
                 
         # 3. Analyze Frame & Build Payload
