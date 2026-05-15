@@ -1,0 +1,5 @@
+## 2024-05-15 - Micro-UX Fixes for R6Assist Frontend
+
+**Learning:** The frontend build heavily enforces `eslint-plugin-react-hooks`, making synchronous `setState` in `useEffect` and unused `motion` variables block the build pipeline. Furthermore, when ensuring ARIA compliance on form inputs, `react/jsx-uses-vars` can occasionally be a conflict if the ESLint react-plugin is not properly configured.
+
+**Action:** Ensure that variables like `setSocket` inside `useEffect` with websockets are acknowledged by ESLint hooks (often using standard hooks configuration `eslint-disable-next-line react-hooks/set-state-in-effect`), remove unused layout-related imports if the JSX structure no longer uses them, and ensure we only invoke standard React hooks correctly without invoking cascading updates. Always test linting after modifications.
