@@ -80,7 +80,7 @@ def monitoring_loop():
         monitor_area = sct.monitors[1]
         print("ℹ️ MSS initialized for API")
 
-    last_frame = None
+    last_small_frame = None
     last_update_payload = None
     
     while is_monitoring:
@@ -101,16 +101,15 @@ def monitoring_loop():
             
         # 2. Check for frame change
         frame_changed = True
-        if last_frame is not None:
-            small_curr = cv2.resize(img, (64, 64))
-            small_last = cv2.resize(last_frame, (64, 64))
-            diff = cv2.absdiff(small_curr, small_last)
+        small_curr = cv2.resize(img, (64, 64))
+        if last_small_frame is not None:
+            diff = cv2.absdiff(small_curr, last_small_frame)
             if np.count_nonzero(diff) < 100:
                 frame_changed = False
                 
         # 3. Analyze Frame & Build Payload
         if frame_changed:
-            last_frame = img.copy()
+            last_small_frame = small_curr
             team_names, confidences, crop_images = assistant.analyzer.analyze_screenshot(img)
             
             # Cache the latest scan data for manual archiving
