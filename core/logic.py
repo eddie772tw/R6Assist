@@ -21,6 +21,9 @@ class TacticalAdvisor:
     def __init__(self, db_path="data/op_stats.json"):
         self.db = self._load_db(db_path)
         
+        # O(1) mapping for case-insensitive operator lookup
+        self._name_map = {k.lower(): k for k in self.db.keys()}
+
         # === 權重設定 (可隨時微調) ===
         # 分數越高代表該職能越核心/不可或缺
         self.role_weights = {
@@ -92,14 +95,17 @@ class TacticalAdvisor:
         # 直接命中
         if name in self.db:
             return self.db[name]
+
+        # O(1) 不分大小寫查詢
+        name_lower = name.lower()
+        if name_lower in self._name_map:
+            return self.db[self._name_map[name_lower]]
         
         # 處理 "Recruit" 這種特殊情況
         # 如果輸入 "Recruit"，我們會回傳 Unknown，因為無法確定攻守
         # 實戰中 analyzer 應該要判斷 side 傳入 Recruit (ATK) 或 (DEF)
         # 這裡做一個簡單的 fallback
         for key in self.db.keys():
-            if name.lower() == key.lower():
-                return self.db[key]
             if name in key: # e.g. "Recruit" in "Recruit (ATK)"
                 return self.db[key]
         return None
