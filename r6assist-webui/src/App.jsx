@@ -98,11 +98,12 @@ function App() {
 
         {/* Language Switcher */}
         <div className="absolute top-6 right-6 flex items-center gap-2">
-          <Globe className="w-5 h-5 text-slate-400" />
+          <Globe className="w-5 h-5 text-slate-400" aria-hidden="true" />
           <select
             className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 outline-none cursor-pointer"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
+            aria-label="Select language"
           >
             <option value="en-us">English (US)</option>
             <option value="zh-tw">繁體中文</option>
@@ -141,11 +142,14 @@ function App() {
         <button
           onClick={handleArchive}
           disabled={archiveStatus !== 'idle'}
+          aria-busy={archiveStatus === 'archiving'}
+          aria-label={t.archive_data}
+          title={t.archive_data}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${archiveStatus === 'success'
             ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
             : archiveStatus === 'error'
               ? 'bg-rose-500/20 border-rose-500/50 text-rose-400'
-              : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700/80 hover:border-slate-600 active:scale-95'
+              : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700/80 hover:border-slate-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed'
             } shadow-lg backdrop-blur-sm`}
         >
           {archiveStatus === 'success' ? (
@@ -159,11 +163,12 @@ function App() {
         </button>
 
         <div className="flex items-center gap-2">
-          <Globe className="w-5 h-5 text-slate-400" />
+          <Globe className="w-5 h-5 text-slate-400" aria-hidden="true" />
           <select
             className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2 outline-none cursor-pointer shadow-lg backdrop-blur-sm"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
+            aria-label="Select language"
           >
             <option value="en-us">EN</option>
             <option value="zh-tw">繁中</option>
