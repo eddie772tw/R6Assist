@@ -98,9 +98,10 @@ function App() {
 
         {/* Language Switcher */}
         <div className="absolute top-6 right-6 flex items-center gap-2">
-          <Globe className="w-5 h-5 text-slate-400" />
+          <Globe className="w-5 h-5 text-slate-400" aria-hidden="true" />
           <select
-            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 outline-none cursor-pointer"
+            aria-label="Select language"
+            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus-visible:ring-2 block w-full p-2 outline-none cursor-pointer"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
           >
@@ -139,9 +140,10 @@ function App() {
       <div className="absolute top-4 right-4 md:top-8 md:right-8 flex items-center gap-4 z-50">
         {/* Archive Button */}
         <button
+          aria-label={t.archive_data}
           onClick={handleArchive}
           disabled={archiveStatus !== 'idle'}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${archiveStatus === 'success'
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${archiveStatus === 'success'
             ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
             : archiveStatus === 'error'
               ? 'bg-rose-500/20 border-rose-500/50 text-rose-400'
@@ -159,9 +161,10 @@ function App() {
         </button>
 
         <div className="flex items-center gap-2">
-          <Globe className="w-5 h-5 text-slate-400" />
+          <Globe className="w-5 h-5 text-slate-400" aria-hidden="true" />
           <select
-            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2 outline-none cursor-pointer shadow-lg backdrop-blur-sm"
+            aria-label="Select language"
+            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus-visible:ring-2 block p-2 outline-none cursor-pointer shadow-lg backdrop-blur-sm"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
           >
