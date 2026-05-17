@@ -239,10 +239,9 @@ class GameMonitor:
 
                 # 2. 智慧畫面偵測 (減少不必要的運算)
                 frame_changed = True
-                if hasattr(self, 'last_frame') and self.last_frame is not None:
-                    small_curr = cv2.resize(img, (64, 64))
-                    small_last = cv2.resize(self.last_frame, (64, 64))
-                    diff = cv2.absdiff(small_curr, small_last)
+                small_curr = cv2.resize(img, (64, 64))
+                if hasattr(self, 'last_small_frame') and self.last_small_frame is not None:
+                    diff = cv2.absdiff(small_curr, self.last_small_frame)
                     non_zero_count = np.count_nonzero(diff)
                     
                     if non_zero_count < 100:
@@ -255,7 +254,7 @@ class GameMonitor:
 
                 if not is_in_phase:
                      self.cached_results = None
-                     self.last_frame = img.copy()
+                     self.last_small_frame = small_curr
                      self.clear_console()
                      self.print_line(f"{'='*40}")
                      self.print_line(f"🔴 R6 TACTICAL MONITOR | FPS: {self.target_fps}")
@@ -275,7 +274,7 @@ class GameMonitor:
 
                 # 4. 視覺辨識 & 更新暫存
                 if frame_changed:
-                    self.last_frame = img.copy()
+                    self.last_small_frame = small_curr
                     team_names, confidences, crop_images = self.assistant.analyzer.analyze_screenshot(img)
                     self.cached_results = (team_names, confidences, crop_images)
                 
