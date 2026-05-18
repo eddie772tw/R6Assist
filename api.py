@@ -22,6 +22,8 @@ from core.collector import DataCollector
 from flask_cors import CORS
 import json
 
+app = Flask(__name__)
+
 # Load configuration
 API_PORT = 5000
 WEB_PORT = 5173
