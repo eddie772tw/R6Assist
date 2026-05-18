@@ -1,5 +1,3 @@
-## 2024-05-15 - Micro-UX Fixes for R6Assist Frontend
-
-**Learning:** The frontend build heavily enforces `eslint-plugin-react-hooks`, making synchronous `setState` in `useEffect` and unused `motion` variables block the build pipeline. Furthermore, when ensuring ARIA compliance on form inputs, `react/jsx-uses-vars` can occasionally be a conflict if the ESLint react-plugin is not properly configured.
-
-**Action:** Ensure that variables like `setSocket` inside `useEffect` with websockets are acknowledged by ESLint hooks (often using standard hooks configuration `eslint-disable-next-line react-hooks/set-state-in-effect`), remove unused layout-related imports if the JSX structure no longer uses them, and ensure we only invoke standard React hooks correctly without invoking cascading updates. Always test linting after modifications.
+## 2024-05-16 - Add ARIA Labels and Disabled States to App.jsx
+**Learning:** Found an accessibility issue pattern in App.jsx where icon-only decorative elements lacked `aria-hidden` and interactable elements without textual content on mobile lacked `aria-label`. The Archive button also lacked clear visual feedback and busy states for screen readers when disabled/archiving. Also discovered that the frontend has a react-hooks/set-state-in-effect lint error that existed prior to my changes.
+**Action:** Ensure that all buttons, especially those that hide text based on responsive breakpoints, have `aria-label` or `title` attributes. Provide explicit disabled styles (`disabled:opacity-50`, `disabled:cursor-not-allowed`) to improve UX for asynchronous actions. Add `aria-hidden="true"` to purely decorative SVGs.
