@@ -99,10 +99,10 @@ class R6AssistLauncher(ctk.CTk):
         self.btn_run_pipeline = ctk.CTkButton(self.sidebar_frame, command=self.run_update_pipeline)
         self.btn_run_pipeline.grid(row=5, column=0, padx=20, pady=(10, 5))
         
-        self.btn_transfer_train = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_training_tool("transfer_train.py"))
+        self.btn_transfer_train = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("transfer_train.py"))
         self.btn_transfer_train.grid(row=6, column=0, padx=20, pady=5)
         
-        self.btn_gui_labeler = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_training_tool("gui_labeler.py"))
+        self.btn_gui_labeler = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("gui_labeler.py"))
         self.btn_gui_labeler.grid(row=7, column=0, padx=20, pady=5)
 
         self.btn_verify = ctk.CTkButton(self.sidebar_frame, command=lambda: self.run_tool("verify_roi.py"))
@@ -378,14 +378,7 @@ class R6AssistLauncher(ctk.CTk):
         process_name = f"TOOL: {tool_file}"
         self.run_command_async([sys.executable, tool_path], process_name)
 
-    def run_training_tool(self, tool_file):
-        tool_path = os.path.join("training_tools", tool_file)
-        if not os.path.exists(tool_path):
-            self.append_log(self.lm.get("tool_not_found", tool_path=tool_path))
-            return
-            
-        process_name = f"TRAIN_TOOL: {tool_file}"
-        self.run_command_async([sys.executable, tool_path], process_name)
+
 
     def run_update_pipeline(self):
         def pipeline_thread():
