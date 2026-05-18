@@ -80,11 +80,11 @@ def main():
 
     # 開始訓練
     # epochs=20 訓練 20 輪通常就足夠收斂了
-    # imgsz=64 因為我們的圖標很小，設為 64 可以飛快訓練
+    # imgsz=128 提升解析度以捕捉更多 Operator 圖標細節
     results = model.train(
         data=dataset_path, 
         epochs=20, 
-        imgsz=64, 
+        imgsz=128, 
         batch=64,
         name='r6_operator_classifier',
         workers=2, # 在 Windows 上有時候太多 workers 會卡住，若有問題可設為 0 or 1

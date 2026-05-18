@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import sys
 import threading
+import base64
 from flask import Flask, request, jsonify
 from flask_socketio import SocketIO
 from flask_cors import CORS
@@ -111,11 +112,61 @@ def monitoring_loop():
         # 3. Analyze Frame & Build Payload
         if frame_changed:
             last_frame = img.copy()
-            team_names, confidences, crop_images = assistant.analyzer.analyze_screenshot(img)
+            
+            # 3. Analyze Frame
+            team_names, confidences, crop_images, used_rois = assistant.analyzer.analyze_screenshot(img)
             
             # Cache the latest scan data for manual archiving
             latest_scan_data = (team_names, confidences, crop_images)
             
+            # --- Emit live frame to WebUI ---
+            try:
+                # Find the bounding box of all ROIs
+                min_x = min(r[0] for r in used_rois)
+                min_y = min(r[1] for r in used_rois)
+                max_x = max(r[0] + r[2] for r in used_rois)
+                max_y = max(r[1] + r[3] for r in used_rois)
+
+                # Add some padding (10% of width/height)
+                pad_w = int((max_x - min_x) * 0.1)
+                pad_h = int((max_y - min_y) * 2.5) # More vertical padding for context
+                
+                h, w = img.shape[:2]
+                y1 = max(0, min_y - int(pad_h * 0.5))
+                y2 = min(h, max_y + int(pad_h * 0.5))
+                x1 = max(0, min_x - pad_w)
+                x2 = min(w, max_x + pad_w)
+                
+                # Crop
+                small_frame = img[y1:y2, x1:x2].copy()
+                
+                # Draw boxes on the crop
+                for i, (rx, ry, rw, rh) in enumerate(used_rois):
+                    # Adjust coordinates for the crop
+                    bx = rx - x1
+                    by = ry - y1
+                    
+                    # Choose color based on recognition status
+                    color = (0, 255, 0) if team_names[i] != "Unknown" else (0, 165, 255) # Green vs Orange
+                    cv2.rectangle(small_frame, (bx, by), (bx + rw, by + rh), color, 2)
+                    
+                    # Optional: Add label
+                    if team_names[i] != "Unknown":
+                        cv2.putText(small_frame, team_names[i], (bx, by - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, color, 1)
+
+                # Resize for performance (width 640px)
+                height, width = small_frame.shape[:2]
+                new_width = 640
+                new_height = int(height * (new_width / width))
+                small_frame = cv2.resize(small_frame, (new_width, new_height))
+                
+                # Encode as JPEG
+                _, buffer = cv2.imencode('.jpg', small_frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
+                jpg_as_text = base64.b64encode(buffer).decode('utf-8')
+                socketio.emit('live_frame', {'image': f'data:image/jpeg;base64,{jpg_as_text}'})
+            except Exception as e:
+                print(f"⚠️ Failed to emit live frame: {e}")
+
             # Use valid count to decide if we are in character selection
             valid_count = sum(1 for n in team_names if n != "Unknown")
             

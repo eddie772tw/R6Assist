@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#0f1115] text-slate-200 antialiased overflow-hidden selection:bg-indigo-500/30;
+    @apply bg-[#0f1115] text-slate-200 antialiased selection:bg-indigo-500/30;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }

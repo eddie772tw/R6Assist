@@ -18,6 +18,7 @@ function App() {
   const [socket, setSocket] = useState(null)
   const [archiveStatus, setArchiveStatus] = useState('idle') // idle, archiving, success, error
   const [lastActiveState, setLastActiveState] = useState(null)
+  const [liveImage, setLiveImage] = useState(null)
   const [gameState, setGameState] = useState({
     status: 'idle', // idle, waiting, active
     message: translations[lang].connecting,
@@ -41,10 +42,14 @@ function App() {
 
     newSocket.on('gameState', (data) => {
       console.log('Received Game State:', data)
-      setGameState(data)
+      setGameState(prev => ({ ...prev, ...data }))
       if (data.status === 'active') {
         setLastActiveState(data)
       }
+    })
+
+    newSocket.on('live_frame', (data) => {
+      setLiveImage(data.image)
     })
 
     newSocket.on('archive_success', () => {
@@ -86,12 +91,21 @@ function App() {
   }
 
   // Determine display message (dynamic from local state or server)
-  const displayMessage = gameState.message === 'connection_lost' ? t.connection_lost :
-    gameState.message === 'Connecting to R6Assist Core...' ? t.connecting :
-      gameState.message
+  const displayMessage =
+    gameState.message === 'connection_lost' ? t.connection_lost :
+      gameState.message === 'Connecting to R6Assist Core...' ? t.connecting :
+        gameState.message === 'Initializing capture engine...' ? t.connecting :
+          gameState.message === 'Waiting for character selection...' ? t.waiting :
+            gameState.message === 'Analyzing team composition...' ? t.live_monitoring :
+              gameState.message
 
-  // Waiting State
-  if (gameState.status !== 'active' && !lastActiveState) {
+  // Show terminal screen only for idle/connecting or when no data is available
+  const isWaitingForFirstScan = (gameState.status === 'idle' || gameState.status === 'starting' || gameState.status === 'waiting') && !lastActiveState;
+
+  // Actually, we want to show the full UI even in "waiting" status as long as we are NOT idle or starting.
+  // The user wants "Waiting for character selection..." to show the "full interface".
+
+  if ((gameState.status === 'idle' || gameState.status === 'starting') && !lastActiveState) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6 subtle-bg bg-fixed bg-cover bg-center text-slate-100">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-900/40 to-slate-900 -z-10" />
@@ -127,11 +141,11 @@ function App() {
     )
   }
 
-  // Active Dashboard State
-  const displayState = gameState.status === 'active' ? gameState : (lastActiveState || gameState)
+  // Active or Waiting Dashboard State
+  const displayState = (gameState.status === 'active' || gameState.status === 'waiting') ? gameState : (lastActiveState || gameState)
 
   return (
-    <div className="min-h-screen p-4 md:p-8 flex flex-col relative overflow-hidden text-slate-100">
+    <div className="p-4 md:p-8 flex flex-col relative text-slate-100">
       <div className="absolute inset-0 bg-slate-950 -z-20" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_var(--tw-gradient-stops))] from-indigo-900/20 via-transparent to-transparent -z-10 pointer-events-none" />
 
@@ -189,12 +203,12 @@ function App() {
       {/* Header Bar */}
       <header className={`flex flex-col flex-wrap md:flex-row items-start md:items-center justify-between gap-4 mb-8 ${(gameState.status !== 'active' && lastActiveState) ? 'mt-0' : 'mt-12 md:mt-0'} pr-0 md:pr-48`}>
         <div className="flex items-center gap-4">
-          <div className={`p-3 rounded-2xl glass-panel flex items-center justify-center ${getSideColor(displayState.side)}`}>
-            {getSideIcon(displayState.side)}
+          <div className={`p-3 rounded-2xl glass-panel flex items-center justify-center ${getSideColor(displayState?.side)}`}>
+            {getSideIcon(displayState?.side)}
           </div>
           <div>
             <h1 className="text-3xl font-bold tracking-tight uppercase flex items-center gap-3">
-              {getSideLabel(displayState.side)} {t.phase}
+              {getSideLabel(displayState?.side)} {t.phase}
             </h1>
             <div className="flex items-center gap-2 mt-1 text-slate-400 font-medium">
               <span className="flex h-2 w-2 relative">
@@ -208,7 +222,7 @@ function App() {
 
         {/* Missing Roles Warning */}
         <AnimatePresence>
-          {displayState.missing_roles && displayState.missing_roles.length > 0 && (
+          {displayState?.missing_roles && displayState.missing_roles.length > 0 && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -227,6 +241,41 @@ function App() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1">
+
+        {/* Live Feed Section */}
+        <div className="lg:col-span-12">
+          <div className="glass-panel p-4 rounded-3xl overflow-hidden relative">
+            <div className="flex items-center justify-between mb-4 px-2">
+              <div className="flex items-center gap-2">
+                <Target className="w-5 h-5 text-indigo-400" />
+                <h2 className="text-lg font-semibold">{t.live_view}</h2>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                <span className="flex h-2 w-2 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                LIVE
+              </div>
+            </div>
+            <div className="aspect-video w-full max-w-4xl mx-auto rounded-2xl overflow-hidden bg-slate-900/50 border border-slate-700/50 relative shadow-2xl">
+              {liveImage ? (
+                <img
+                  src={liveImage}
+                  alt="Live Recognition Feed"
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500 gap-4">
+                  <div className="w-12 h-12 rounded-full border-4 border-slate-700 border-t-indigo-500 animate-spin" />
+                  <span className="text-sm font-medium">{t.waiting}</span>
+                </div>
+              )}
+              {/* Scanline overlay effect */}
+              <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
+            </div>
+          </div>
+        </div>
 
         {/* Left Column: Team Composition */}
         <div className="lg:col-span-4 flex flex-col gap-6">
@@ -252,7 +301,7 @@ function App() {
               <div className="flex flex-col gap-2 mt-6">
                 <span className="text-xs uppercase tracking-wider text-slate-500 font-bold">{t.teammates}</span>
                 <div className="flex flex-col gap-2">
-                  {displayState.teammates.map((mate, idx) => (
+                  {(displayState?.teammates || []).map((mate, idx) => (
                     <div key={idx} className="flex items-center gap-4 p-3 rounded-xl bg-slate-800/30 border border-slate-700/30 text-slate-300">
                       <div className="w-8 h-8 rounded-lg bg-slate-700/50 flex items-center justify-center text-xs font-bold text-slate-400">P{idx + 1}</div>
                       <span className="font-medium">{mate}</span>
@@ -274,7 +323,7 @@ function App() {
 
             <div className="grid gap-4">
               <AnimatePresence mode="popLayout">
-                {displayState.recommendations.map((rec, index) => (
+                {(displayState?.recommendations || []).map((rec, index) => (
                   <motion.div
                     key={rec.name}
                     layout
@@ -304,7 +353,7 @@ function App() {
                           {rec.name}
                         </h3>
                         <div className="flex flex-wrap gap-2 mt-2">
-                          {rec.roles.map(r => (
+                          {(rec.roles || []).map(r => (
                             <span key={r} className="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-800 border border-slate-700 text-slate-300">
                               {r}
                             </span>
@@ -338,7 +387,7 @@ function App() {
                 ))}
               </AnimatePresence>
 
-              {displayState.recommendations.length === 0 && (
+              {(!displayState?.recommendations || displayState.recommendations.length === 0) && (
                 <div className="glass-panel p-8 rounded-3xl text-center text-slate-400">
                   {t.no_recommendations}
                 </div>

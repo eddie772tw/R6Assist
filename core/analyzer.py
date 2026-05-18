@@ -178,26 +178,26 @@ class TeamAnalyzer:
     def analyze_screenshot(self, img):
         """
         輸入一張遊戲截圖，自動判斷是 NORMAL 還是 REPICK 模式，並回傳最佳結果
-        Return: (team_names, confidences, crop_images)
+        Return: (team_names, confidences, crop_images, used_rois)
         """
         # 1. 先嘗試 NORMAL 模式
         team_norm, confs_norm, avg_norm, crops_norm = self._predict_rois(img, "NORMAL")
+        h, w = img.shape[:2]
+        rois_norm = ROIConfig(w, h).get_rois(mode="NORMAL")
 
         # 如果信心度夠高 (>= 90%)，直接採用，不用浪費時間測別的
         if avg_norm >= 0.90:
-            return team_norm, confs_norm, crops_norm
+            return team_norm, confs_norm, crops_norm, rois_norm
             
         # 2. 如果信心度不足，嘗試 REPICK 模式
-        # print(f"NORMAL 模式信心度 ({avg_norm:.1%}) 低於 90%，嘗試 REPICK 模式...")
         team_repick, confs_repick, avg_repick, crops_repick = self._predict_rois(img, "REPICK")
+        rois_repick = ROIConfig(w, h).get_rois(mode="REPICK")
 
         # 3. 比較兩種模式的信心度
         if avg_repick > avg_norm:
-            # print(f"判定為 REPICK 模式 (信心度: {avg_repick:.1%})")
-            return team_repick, confs_repick, crops_repick
+            return team_repick, confs_repick, crops_repick, rois_repick
         else:
-            # print(f"維持 NORMAL 模式 (信心度: {avg_norm:.1%})")
-            return team_norm, confs_norm, crops_norm
+            return team_norm, confs_norm, crops_norm, rois_norm
 
 # --- 測試區塊 ---
 if __name__ == "__main__":

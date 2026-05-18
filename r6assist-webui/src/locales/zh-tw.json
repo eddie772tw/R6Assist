@@ -20,5 +20,7 @@
     "archiving": "正在歸檔...",
     "archive_success": "資料歸檔成功！",
     "archive_error": "無可歸檔的資料。",
-    "outdated_result": "目前的辨識結果可能不是最新的。"
+    "outdated_result": "目前的辨識結果可能不是最新的。",
+    "live_view": "即時辨識畫面",
+    "recognition_view": "辨識預覽"
 }

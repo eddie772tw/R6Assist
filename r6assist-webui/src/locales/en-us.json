@@ -20,5 +20,7 @@
     "archiving": "Archiving...",
     "archive_success": "Data archived successfully!",
     "archive_error": "No data to archive.",
-    "outdated_result": "Current recognition result might be outdated."
+    "outdated_result": "Current recognition result might be outdated.",
+    "live_view": "Live Recognition Feed",
+    "recognition_view": "Recognition Preview"
 }
