@@ -39,6 +39,18 @@ allowed_origins = [f"http://127.0.0.1:{WEB_PORT}", f"http://localhost:{WEB_PORT}
 CORS(app, origins=allowed_origins)
 socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
 
+app = Flask(__name__)
+
+# Secure CORS configuration
+allowed_origins = [
+    f"http://localhost:{WEB_PORT}",
+    f"http://127.0.0.1:{WEB_PORT}"
+]
+
+# Enable CORS for the Vite dev server
+CORS(app, origins=allowed_origins)
+socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
+
 # Create a global state to keep track of the monitoring thread
 monitoring_thread = None
 is_monitoring = False
