@@ -96,6 +96,7 @@ def monitoring_loop():
         print("ℹ️ MSS initialized for API")
 
     last_frame = None
+    small_last_frame = None
     last_update_payload = None
     
     while is_monitoring:
@@ -116,6 +117,7 @@ def monitoring_loop():
             
         # 2. Check for frame change
         frame_changed = True
+        small_curr = None
         if last_frame is not None:
             small_curr = cv2.resize(img, (64, 64))
             small_last = cv2.resize(last_frame, (64, 64))
@@ -128,6 +130,9 @@ def monitoring_loop():
         # 3. Analyze Frame & Build Payload
         if frame_changed:
             last_frame = img.copy()
+            if small_curr is None:
+                small_curr = cv2.resize(img, (64, 64))
+            small_last_frame = small_curr.copy()
             team_names, confidences, crop_images = assistant.analyzer.analyze_screenshot(img)
             
             # Cache the latest scan data for manual archiving
