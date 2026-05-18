@@ -94,7 +94,7 @@ class R6TacticalAssistant:
             return
 
         # 2. 視覺辨識 (The Eyes)
-        team_names, confidences = self.analyzer.analyze_screenshot(img)
+        team_names, confidences, _ = self.analyzer.analyze_screenshot(img)
         
         # 過濾掉 Unknown，讓顯示乾淨點
         print(f"👁️  視覺偵測完整結果: {team_names}")

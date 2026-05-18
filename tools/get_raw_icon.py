@@ -16,7 +16,6 @@
 import os
 import requests
 from bs4 import BeautifulSoup
-import time
 import re
 
 class R6IconDownloader:
