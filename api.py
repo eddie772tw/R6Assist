@@ -98,7 +98,6 @@ def monitoring_loop():
         monitor_area = sct.monitors[1]
         print("ℹ️ MSS initialized for API")
 
-    last_frame = None
     small_last_frame = None
     last_update_payload = None
     
@@ -121,10 +120,11 @@ def monitoring_loop():
         # 2. Check for frame change
         frame_changed = True
         small_curr = None
-        if last_frame is not None:
+        if small_last_frame is not None:
+            # ⚡ Bolt: Cache downscaled 64x64 frames directly instead of deep copying full-resolution frames.
+            # This avoids O(N) memory allocation and redundant resize operations on every loop iteration.
             small_curr = cv2.resize(img, (64, 64))
-            small_last = cv2.resize(last_frame, (64, 64))
-            diff = cv2.absdiff(small_curr, small_last)
+            diff = cv2.absdiff(small_curr, small_last_frame)
             gray_diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
             _, diff_thresh = cv2.threshold(gray_diff, 30, 255, cv2.THRESH_BINARY)
             if cv2.countNonZero(diff_thresh) < 100:
@@ -132,10 +132,9 @@ def monitoring_loop():
                 
         # 3. Analyze Frame & Build Payload
         if frame_changed:
-            last_frame = img.copy()
             if small_curr is None:
                 small_curr = cv2.resize(img, (64, 64))
-            small_last_frame = small_curr.copy()
+            small_last_frame = small_curr
             team_names, confidences, crop_images = assistant.analyzer.analyze_screenshot(img)
             
             # Cache the latest scan data for manual archiving
