@@ -101,7 +101,6 @@ function App() {
               gameState.message
 
   // Show terminal screen only for idle/connecting or when no data is available
-  const isWaitingForFirstScan = (gameState.status === 'idle' || gameState.status === 'starting' || gameState.status === 'waiting') && !lastActiveState;
 
   // Actually, we want to show the full UI even in "waiting" status as long as we are NOT idle or starting.
   // The user wants "Waiting for character selection..." to show the "full interface".
@@ -119,7 +118,6 @@ function App() {
             className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus-visible:ring-2 block w-full p-2 outline-none cursor-pointer"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
-            aria-label="Select language"
           >
             <option value="en-us">English (US)</option>
             <option value="zh-tw">繁體中文</option>
@@ -160,7 +158,6 @@ function App() {
           onClick={handleArchive}
           disabled={archiveStatus !== 'idle'}
           aria-busy={archiveStatus === 'archiving'}
-          aria-label={t.archive_data}
           title={t.archive_data}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${archiveStatus === 'success'
             ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
@@ -186,7 +183,6 @@ function App() {
             className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-500 block p-2 outline-none cursor-pointer shadow-lg backdrop-blur-sm"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
-            aria-label="Select language"
           >
             <option value="en-us">EN</option>
             <option value="zh-tw">繁中</option>
@@ -241,7 +237,7 @@ function App() {
                   <span key={idx} className="px-2 py-0.5 rounded-md bg-amber-500/20 text-sm whitespace-nowrap">{role}</span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
         </AnimatePresence>
       </header>
@@ -382,7 +378,7 @@ function App() {
 
                     {/* Subtle background glow for cards */}
                     <div className="absolute -right-20 -top-20 w-64 h-64 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  </div>
+                  </motion.div>
                 ))}
               </AnimatePresence>
 
