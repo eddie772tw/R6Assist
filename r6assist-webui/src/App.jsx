@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import { AlertCircle, Target, Shield, Users, Crosshair, HelpCircle, Globe, Save, CheckCircle2 } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import enUs from './locales/en-us.json'
 import zhTw from './locales/zh-tw.json'
 import configData from '../../config.json'
@@ -32,6 +32,7 @@ function App() {
   useEffect(() => {
     // Connect to the WebSocket server
     const newSocket = io(SOCKET_URL)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSocket(newSocket)
 
     newSocket.on('connect', () => {
@@ -98,9 +99,10 @@ function App() {
 
         {/* Language Switcher */}
         <div className="absolute top-6 right-6 flex items-center gap-2">
-          <Globe className="w-5 h-5 text-slate-400" />
+          <Globe className="w-5 h-5 text-slate-400" aria-hidden="true" />
           <select
-            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 outline-none cursor-pointer"
+            aria-label="Select language"
+            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-500 block w-full p-2 outline-none cursor-pointer"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
           >
@@ -141,17 +143,18 @@ function App() {
         <button
           onClick={handleArchive}
           disabled={archiveStatus !== 'idle'}
+          aria-label={t.archive_data}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all duration-300 ${archiveStatus === 'success'
             ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
             : archiveStatus === 'error'
               ? 'bg-rose-500/20 border-rose-500/50 text-rose-400'
               : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700/80 hover:border-slate-600 active:scale-95'
-            } shadow-lg backdrop-blur-sm`}
+            } shadow-lg backdrop-blur-sm focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed`}
         >
           {archiveStatus === 'success' ? (
-            <CheckCircle2 className="w-5 h-5" />
+            <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
           ) : (
-            <Save className={`w-5 h-5 ${archiveStatus === 'archiving' ? 'animate-pulse' : ''}`} />
+            <Save className={`w-5 h-5 ${archiveStatus === 'archiving' ? 'animate-pulse' : ''}`} aria-hidden="true" />
           )}
           <span className="font-semibold hidden sm:inline">
             {archiveStatus === 'archiving' ? t.archiving : archiveStatus === 'success' ? t.archive_success : archiveStatus === 'error' ? t.archive_error : t.archive_data}
@@ -159,9 +162,10 @@ function App() {
         </button>
 
         <div className="flex items-center gap-2">
-          <Globe className="w-5 h-5 text-slate-400" />
+          <Globe className="w-5 h-5 text-slate-400" aria-hidden="true" />
           <select
-            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2 outline-none cursor-pointer shadow-lg backdrop-blur-sm"
+            aria-label="Select language"
+            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-500 block p-2 outline-none cursor-pointer shadow-lg backdrop-blur-sm"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
           >
@@ -174,15 +178,12 @@ function App() {
       {/* Outdated Result Warning */}
       <AnimatePresence>
         {gameState.status !== 'active' && lastActiveState && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+          <div
             className="flex items-center justify-center gap-3 p-3 mb-6 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 font-medium w-full max-w-4xl mx-auto shadow-lg backdrop-blur-sm z-40 mt-12 md:mt-0"
           >
             <AlertCircle className="w-5 h-5 flex-shrink-0" />
             <span>{t.outdated_result}</span>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
@@ -209,9 +210,7 @@ function App() {
         {/* Missing Roles Warning */}
         <AnimatePresence>
           {displayState.missing_roles && displayState.missing_roles.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
+            <div
               className="flex items-center flex-wrap gap-3 px-5 py-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400"
             >
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -221,7 +220,7 @@ function App() {
                   <span key={idx} className="px-2 py-0.5 rounded-md bg-amber-500/20 text-sm whitespace-nowrap">{role}</span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </header>
@@ -275,13 +274,8 @@ function App() {
             <div className="grid gap-4">
               <AnimatePresence mode="popLayout">
                 {displayState.recommendations.map((rec, index) => (
-                  <motion.div
+                  <div
                     key={rec.name}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
                     className={`relative overflow-hidden group rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all duration-300
                             ${index === 0
                         ? 'bg-gradient-to-r from-indigo-600/20 to-violet-600/20 border border-indigo-500/30 shadow-[0_0_30px_rgba(99,102,241,0.1)]'
@@ -323,18 +317,16 @@ function App() {
 
                       {/* Score Bar */}
                       <div className="w-32 h-2 rounded-full bg-slate-800 overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${(rec.score / 10) * 100}%` }}
-                          transition={{ duration: 1, ease: 'easeOut' }}
-                          className={`h-full rounded-full ${index === 0 ? 'bg-indigo-500' : 'bg-slate-400'}`}
+                        <div
+                          style={{ width: `${(rec.score / 10) * 100}%` }}
+                          className={`h-full rounded-full transition-all duration-1000 ease-out ${index === 0 ? 'bg-indigo-500' : 'bg-slate-400'}`}
                         />
                       </div>
                     </div>
 
                     {/* Subtle background glow for cards */}
                     <div className="absolute -right-20 -top-20 w-64 h-64 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  </motion.div>
+                  </div>
                 ))}
               </AnimatePresence>
 
