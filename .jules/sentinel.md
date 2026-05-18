@@ -1,4 +1,4 @@
-## 2026-05-16 - Prevent Unintended Network Exposure of Desktop APIs
-**Vulnerability:** The desktop API (`api.py`) was binding to `0.0.0.0` with `cors_allowed_origins="*"` over Flask-SocketIO.
-**Learning:** For a desktop assistant intended strictly for local use, exposing APIs on all network interfaces (`0.0.0.0`) instead of loopback (`127.0.0.1`) is a significant architectural vulnerability. It allows anyone on the same local network (e.g. coffee shop Wi-Fi) to connect to the assistant, arbitrarily start or stop monitoring capabilities, and siphon sensitive local application state or real-time game state information. With wildcard CORS, any malicious website the user visits could also have theoretically interfaced directly with the assistant via WebSockets on `localhost`.
-**Prevention:** Always restrict desktop companion APIs to bind exclusively to `127.0.0.1` and explicitly enumerate CORS origins linked directly to the application's expected local frontend port (`web_port`).
+## 2024-05-19 - [HIGH] Restrict local API network binding and CORS policy
+**Vulnerability:** The local Flask-SocketIO backend was binding to `0.0.0.0` and using wildcard CORS `*`, exposing the API and screen capture capabilities to the entire local network.
+**Learning:** For a local desktop application with a decoupled web UI, backend APIs (Flask/SocketIO) must explicitly bind to `127.0.0.1` and use strict CORS policies limited to the local frontend port, rather than `0.0.0.0` or wildcard origins.
+**Prevention:** Always verify network binding in local applications and explicitly load configuration ports to build strict `allowed_origins` for CORS and WebSocket connections.

@@ -19,7 +19,7 @@ class PhaseDetector:
 
     def _load_template(self, path):
         if os.path.exists(path):
-            img = cv2.imdecode(np.fromfile(path, dtype=np.uint8), cv2.IMREAD_COLOR)
+            img = cv2.imdecode(np.fromfile(path, dtype=np.uint8), cv2.IMREAD_GRAYSCALE)
             return img
         return None
 
@@ -49,6 +49,7 @@ class PhaseDetector:
 
         # Crop top half to speed up
         search_region = img[0:img.shape[0]//2, 0:img.shape[1]]
+        search_region = cv2.cvtColor(search_region, cv2.COLOR_BGR2GRAY)
         
         # Check cache first
         if self.cached_scale and self.cached_team in ['atk', 'def']:

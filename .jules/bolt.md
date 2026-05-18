@@ -1,0 +1,3 @@
+## 2025-02-28 - Avoid Deep Copies and Redundant Resizing in High-Frequency Loops
+**Learning:** `api.py` and `monitor.py` were deep copying a high-resolution frame (`img.copy()`) and repeatedly resizing it to 64x64 on every iteration of a high-frequency loop to detect motion. Since only the 64x64 version is needed for the diff calculation (`cv2.absdiff`), maintaining the full-resolution copy was a bottleneck.
+**Action:** Replaced the full-resolution `last_frame` cache with a downscaled `last_small_frame` cache, avoiding one `cv2.resize()` call per loop and completely eliminating the expensive `img.copy()` operation on the high-resolution NumPy array, saving CPU and memory bandwidth.

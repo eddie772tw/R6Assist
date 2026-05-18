@@ -33,10 +33,23 @@ try:
         API_PORT = config_data.get('api_port', 5000)
         WEB_PORT = config_data.get('web_port', 5173)
 except Exception as e:
-    print(f"⚠️ Could not load config.json (using default ports): {e}")
+    print(f"⚠️ Could not load config.json (using defaults): {e}")
 
-# Enable strict CORS for the Vite dev server
-allowed_origins = [f"http://localhost:{WEB_PORT}", f"http://127.0.0.1:{WEB_PORT}"]
+app = Flask(__name__)
+# 🛡️ Sentinel: Restrict CORS to strictly the local frontend port instead of wildcard '*'
+allowed_origins = [f"http://127.0.0.1:{WEB_PORT}", f"http://localhost:{WEB_PORT}"]
+CORS(app, origins=allowed_origins)
+socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
+
+app = Flask(__name__)
+
+# Secure CORS configuration
+allowed_origins = [
+    f"http://localhost:{WEB_PORT}",
+    f"http://127.0.0.1:{WEB_PORT}"
+]
+
+# Enable CORS for the Vite dev server
 CORS(app, origins=allowed_origins)
 socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
 
@@ -85,6 +98,7 @@ def monitoring_loop():
         print("ℹ️ MSS initialized for API")
 
     last_frame = None
+    small_last_frame = None
     last_update_payload = None
     
     while is_monitoring:
@@ -105,16 +119,22 @@ def monitoring_loop():
             
         # 2. Check for frame change
         frame_changed = True
+        small_curr = None
         if last_frame is not None:
             small_curr = cv2.resize(img, (64, 64))
             small_last = cv2.resize(last_frame, (64, 64))
             diff = cv2.absdiff(small_curr, small_last)
-            if np.count_nonzero(diff) < 100:
+            gray_diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+            _, diff_thresh = cv2.threshold(gray_diff, 30, 255, cv2.THRESH_BINARY)
+            if cv2.countNonZero(diff_thresh) < 100:
                 frame_changed = False
                 
         # 3. Analyze Frame & Build Payload
         if frame_changed:
             last_frame = img.copy()
+            if small_curr is None:
+                small_curr = cv2.resize(img, (64, 64))
+            small_last_frame = small_curr.copy()
             team_names, confidences, crop_images = assistant.analyzer.analyze_screenshot(img)
             
             # Cache the latest scan data for manual archiving
@@ -219,6 +239,7 @@ def archive_capture():
         socketio.emit('archive_error', {"message": "No active scan data to archive."})
 
 if __name__ == '__main__':
-    print(f"Starting Flask-SocketIO Server on port {API_PORT}...")
+    # 🛡️ Sentinel: Bind explicitly to 127.0.0.1 to avoid exposing the API on the local network
+    print(f"Starting Flask-SocketIO Server on 127.0.0.1:{API_PORT}...")
     socketio.run(app, host='127.0.0.1', port=API_PORT, debug=False, log_output=False)
 
