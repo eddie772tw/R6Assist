@@ -1,3 +1,3 @@
-## 2024-05-16 - Add ARIA Labels and Disabled States to App.jsx
-**Learning:** Found an accessibility issue pattern in App.jsx where icon-only decorative elements lacked `aria-hidden` and interactable elements without textual content on mobile lacked `aria-label`. The Archive button also lacked clear visual feedback and busy states for screen readers when disabled/archiving. Also discovered that the frontend has a react-hooks/set-state-in-effect lint error that existed prior to my changes.
-**Action:** Ensure that all buttons, especially those that hide text based on responsive breakpoints, have `aria-label` or `title` attributes. Provide explicit disabled styles (`disabled:opacity-50`, `disabled:cursor-not-allowed`) to improve UX for asynchronous actions. Add `aria-hidden="true"` to purely decorative SVGs.
+## 2025-03-05 - Hidden Text Labels on Mobile
+**Learning:** Buttons with `hidden sm:inline` text labels become icon-only buttons on mobile breakpoints. Without an `aria-label`, they are completely inaccessible to screen reader users on mobile devices, even if they appear accessible on desktop.
+**Action:** Always provide an explicit `aria-label` on buttons where the text content is conditionally hidden by responsive utility classes.

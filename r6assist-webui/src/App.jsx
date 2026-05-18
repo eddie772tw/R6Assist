@@ -102,7 +102,7 @@ function App() {
           <Globe className="w-5 h-5 text-slate-400" aria-hidden="true" />
           <select
             aria-label="Select language"
-            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-500 block w-full p-2 outline-none cursor-pointer"
+            className="bg-slate-800/80 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 focus-visible:ring-2 block w-full p-2 outline-none cursor-pointer"
             value={lang}
             onChange={(e) => setLang(e.target.value)}
             aria-label="Select language"
@@ -142,6 +142,7 @@ function App() {
       <div className="absolute top-4 right-4 md:top-8 md:right-8 flex items-center gap-4 z-50">
         {/* Archive Button */}
         <button
+          aria-label={t.archive_data}
           onClick={handleArchive}
           disabled={archiveStatus !== 'idle'}
           aria-busy={archiveStatus === 'archiving'}
