@@ -243,7 +243,9 @@ class GameMonitor:
                     small_curr = cv2.resize(img, (64, 64))
                     small_last = cv2.resize(self.last_frame, (64, 64))
                     diff = cv2.absdiff(small_curr, small_last)
-                    non_zero_count = np.count_nonzero(diff)
+                    gray_diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                    _, diff_thresh = cv2.threshold(gray_diff, 30, 255, cv2.THRESH_BINARY)
+                    non_zero_count = cv2.countNonZero(diff_thresh)
                     
                     if non_zero_count < 100:
                         frame_changed = False

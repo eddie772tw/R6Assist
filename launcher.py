@@ -321,7 +321,12 @@ class R6AssistLauncher(ctk.CTk):
             if "API" in self.processes:
                 self.processes["API"].terminate()
             if "WEB_UI" in self.processes:
-                os.system(f"taskkill /F /PID {self.processes['WEB_UI'].pid} /T >nul 2>&1")
+                subprocess.run(
+                    ["taskkill", "/F", "/PID", str(self.processes["WEB_UI"].pid), "/T"],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    check=False
+                )
                 
             self.btn_dashboard.configure(fg_color="green")
         else:
@@ -447,7 +452,12 @@ class R6AssistLauncher(ctk.CTk):
             if p.poll() is None:
                 try:
                     if os.name == 'nt':
-                         os.system(f"taskkill /F /PID {p.pid} /T >nul 2>&1")
+                        subprocess.run(
+                            ["taskkill", "/F", "/PID", str(p.pid), "/T"],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                            check=False
+                        )
                     else:
                         p.terminate()
                 except Exception:
