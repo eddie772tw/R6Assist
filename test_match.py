@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import os
 import glob
-import sys
 
 base_dir = r"c:\Users\eddie\Desktop\Utility\R6Assist"
 img_dir = os.path.join(base_dir, "screenshot")
