@@ -6,6 +6,7 @@ import queue
 import time
 import json
 import webbrowser
+import shutil
 import customtkinter as ctk
 
 # Ensure working directory is the project root
@@ -271,15 +272,17 @@ class R6AssistLauncher(ctk.CTk):
     def run_command_async(self, cmd_list, process_name, cwd=None):
         self.append_log(self.lm.get("starting_process", process_name=process_name))
         try:
-            # Use shell=True for npm commands on Windows if necessary
-            is_shell = True if os.name == 'nt' and cmd_list[0] == 'npm' else False
-            
+            # Resolve executable path to avoid shell=True requirement on Windows
+            resolved_cmd = shutil.which(cmd_list[0])
+            if resolved_cmd:
+                cmd_list[0] = resolved_cmd
+
             p = subprocess.Popen(
                 cmd_list,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT, # Merge stderr into stdout thread
                 cwd=cwd or ROOT_DIR,
-                shell=is_shell
+                shell=False
             )
             self.processes[process_name] = p
             
@@ -322,10 +325,10 @@ class R6AssistLauncher(ctk.CTk):
                 self.processes["API"].terminate()
             if "WEB_UI" in self.processes:
                 subprocess.run(
-                    ["taskkill", "/F", "/PID", str(self.processes["WEB_UI"].pid), "/T"],
+                    ["taskkill", "/F", "/PID", str(self.processes['WEB_UI'].pid), "/T"],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
-                    check=False
+                    shell=False
                 )
                 
             self.btn_dashboard.configure(fg_color="green")
@@ -456,7 +459,7 @@ class R6AssistLauncher(ctk.CTk):
                             ["taskkill", "/F", "/PID", str(p.pid), "/T"],
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL,
-                            check=False
+                            shell=False
                         )
                     else:
                         p.terminate()
