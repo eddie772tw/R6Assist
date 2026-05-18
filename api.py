@@ -1,4 +1,5 @@
 import time
+import re
 import os
 import cv2
 import numpy as np
@@ -37,22 +38,13 @@ except Exception as e:
     print(f"⚠️ Could not load config.json (using defaults): {e}")
 
 app = Flask(__name__)
-# 🛡️ Sentinel: Restrict CORS to strictly the local frontend port instead of wildcard '*'
-allowed_origins = [f"http://127.0.0.1:{WEB_PORT}", f"http://localhost:{WEB_PORT}"]
-CORS(app, origins=allowed_origins)
-socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
 
-app = Flask(__name__)
+# 🛡️ Sentinel: Allow CORS for local network devices to enable cross-device experience (e.g. tablet/phone on same Wi-Fi)
+# Regex matches localhost, 127.0.0.1, and private IPv4 address ranges (10.x.x.x, 172.16.x.x-172.31.x.x, 192.168.x.x)
+cors_regex = re.compile(r"^https?://(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+)(:\d+)?$")
 
-# Secure CORS configuration
-allowed_origins = [
-    f"http://localhost:{WEB_PORT}",
-    f"http://127.0.0.1:{WEB_PORT}"
-]
-
-# Enable CORS for the Vite dev server
-CORS(app, origins=allowed_origins)
-socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
+CORS(app, origins=cors_regex)
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 # Create a global state to keep track of the monitoring thread
 monitoring_thread = None
@@ -288,7 +280,7 @@ def archive_capture():
         socketio.emit('archive_error', {"message": "No active scan data to archive."})
 
 if __name__ == '__main__':
-    # 🛡️ Sentinel: Bind explicitly to 127.0.0.1 to avoid exposing the API on the local network
-    print(f"Starting Flask-SocketIO Server on 127.0.0.1:{API_PORT}...")
-    socketio.run(app, host='127.0.0.1', port=API_PORT, debug=False, log_output=False)
+    # 🛡️ Sentinel: Bind to 0.0.0.0 to allow cross-device access on the local network
+    print(f"Starting Flask-SocketIO Server on 0.0.0.0:{API_PORT} (Local Network Access Enabled)...")
+    socketio.run(app, host='0.0.0.0', port=API_PORT, debug=False, log_output=False)
 

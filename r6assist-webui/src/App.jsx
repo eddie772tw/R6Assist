@@ -7,7 +7,7 @@ import zhTw from './locales/zh-tw.json'
 import configData from '../../config.json'
 
 // Define the Socket URL dynamically using config
-const SOCKET_URL = `http://localhost:${configData.api_port || 5000}`
+const SOCKET_URL = `http://${window.location.hostname}:${configData.api_port || 5000}`
 const translations = {
   'en-us': enUs,
   'zh-tw': zhTw
