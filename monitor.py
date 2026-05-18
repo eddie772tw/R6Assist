@@ -239,10 +239,12 @@ class GameMonitor:
 
                 # 2. 智慧畫面偵測 (減少不必要的運算)
                 frame_changed = True
+                small_curr = None
                 if hasattr(self, 'last_small_frame') and self.last_small_frame is not None:
+                    # ⚡ Bolt: Cache downscaled 64x64 frames directly instead of deep copying full-resolution frames.
+                    # This avoids O(N) memory allocation and redundant resize operations on every loop iteration.
                     small_curr = cv2.resize(img, (64, 64))
-                    small_last = self.last_small_frame
-                    diff = cv2.absdiff(small_curr, small_last)
+                    diff = cv2.absdiff(small_curr, self.last_small_frame)
                     gray_diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
                     _, diff_thresh = cv2.threshold(gray_diff, 30, 255, cv2.THRESH_BINARY)
                     non_zero_count = cv2.countNonZero(diff_thresh)
@@ -257,8 +259,9 @@ class GameMonitor:
 
                 if not is_in_phase:
                      self.cached_results = None
-                     self.last_frame = img.copy()
-                     self.last_small_frame = cv2.resize(self.last_frame, (64, 64))
+                     if small_curr is None:
+                         small_curr = cv2.resize(img, (64, 64))
+                     self.last_small_frame = small_curr
                      self.clear_console()
                      self.print_line(f"{'='*40}")
                      self.print_line(f"🔴 R6 TACTICAL MONITOR | FPS: {self.target_fps}")
@@ -278,8 +281,9 @@ class GameMonitor:
 
                 # 4. 視覺辨識 & 更新暫存
                 if frame_changed:
-                    self.last_frame = img.copy()
-                    self.last_small_frame = cv2.resize(self.last_frame, (64, 64))
+                    if small_curr is None:
+                        small_curr = cv2.resize(img, (64, 64))
+                    self.last_small_frame = small_curr
                     team_names, confidences, crop_images = self.assistant.analyzer.analyze_screenshot(img)
                     self.cached_results = (team_names, confidences, crop_images)
                 
