@@ -193,11 +193,21 @@ class TeamAnalyzer:
         team_repick, confs_repick, avg_repick, crops_repick = self._predict_rois(img, "REPICK")
         rois_repick = ROIConfig(w, h).get_rois(mode="REPICK")
 
-        # 3. 比較兩種模式的信心度
-        if avg_repick > avg_norm:
-            return team_repick, confs_repick, crops_repick, rois_repick
+        # 3. 比較兩種模式的有效人數與信心度
+        valid_norm = sum(1 for n in team_norm if n != "Unknown")
+        valid_repick = sum(1 for n in team_repick if n != "Unknown")
+
+        if valid_repick > valid_norm:
+            return team_repick, confs_repick, crops_repick
+        elif valid_norm > valid_repick:
+            return team_norm, confs_norm, crops_norm
         else:
-            return team_norm, confs_norm, crops_norm, rois_norm
+            if avg_repick > avg_norm:
+                # print(f"判定為 REPICK 模式 (信心度: {avg_repick:.1%})")
+                return team_repick, confs_repick, crops_repick
+            else:
+                # print(f"維持 NORMAL 模式 (信心度: {avg_norm:.1%})")
+                return team_norm, confs_norm, crops_norm
 
 # --- 測試區塊 ---
 if __name__ == "__main__":
