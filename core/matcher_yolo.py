@@ -21,9 +21,27 @@ import numpy as np
 
 class MLOperatorMatcher:
     def __init__(self, model_path=None):
-        self.model_path = self._find_model_path(model_path)
+        raw_model_path = self._find_model_path(model_path)
+        
+        # 智慧 ONNX 自動匯出與優先載入機制
+        self.model_path = raw_model_path
+        if raw_model_path.endswith(".pt"):
+            onnx_path = raw_model_path.replace(".pt", ".onnx")
+            if not os.path.exists(onnx_path):
+                print(f"🔄 偵測到 PyTorch 模型 ({raw_model_path})，正在自動導出為高效能 ONNX 格式...")
+                try:
+                    # 載入原生 .pt 模型並匯出為 64x64 half-precision ONNX
+                    temp_model = YOLO(raw_model_path)
+                    temp_model.export(format="onnx", imgsz=64, half=True, verbose=False)
+                    print(f"✅ ONNX 模型導出成功: {onnx_path}")
+                except Exception as e:
+                    print(f"⚠️ ONNX 導出失敗 ({e})，將退回使用 PyTorch 原生格式。")
+            
+            if os.path.exists(onnx_path):
+                self.model_path = onnx_path
+                
         print(f"Loading YOLO model from: {self.model_path}")
-        self.model = YOLO(self.model_path)
+        self.model = YOLO(self.model_path, task="classify")
 
     def _find_model_path(self, provided_path):
         """

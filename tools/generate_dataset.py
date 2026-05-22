@@ -61,6 +61,9 @@ transform = A.Compose([
     # translate_percent=(-0.05, 0.05) 對應 shift_limit=0.05
     # rotate=(-3, 3) 對應 rotate_limit=3
     A.Affine(scale=(0.95, 1.05), translate_percent=(-0.05, 0.05), rotate=(-3, 3), p=0.5),
+    
+    # 5. 局部遮擋 (模擬 HUD 被其他物件或邊緣文字稍微擋到的情形)
+    A.CoarseDropout(num_holes_range=(1, 1), hole_height_range=(4, 8), hole_width_range=(4, 8), p=0.3),
 ])
 
 def create_bg(h, w):
@@ -130,7 +133,25 @@ for side in sides:
             # 4. 疊加
             final_img = overlay_transparent(bg, resized_icon, offset_x, offset_y)
             
-            # 5. 應用增強 (變暗、變色、雜訊)
+            # --- 實戰狀態遮罩數據增強 ---
+            state_rand = random.random()
+            if state_rand < 0.25:
+                # 死亡狀態 (轉為灰階 + 降低亮度 + 繪製紅色死亡 X)
+                gray = cv2.cvtColor(final_img, cv2.COLOR_BGR2GRAY)
+                final_img = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+                final_img = (final_img * 0.45).astype(np.uint8)  # 變暗 55%
+                
+                # 繪製死亡紅叉
+                x_offset = random.randint(-1, 1)
+                y_offset = random.randint(-1, 1)
+                cv2.line(final_img, (16 + x_offset, 16 + y_offset), (48 + x_offset, 48 + y_offset), (0, 0, 220), 3)
+                cv2.line(final_img, (16 + x_offset, 48 + y_offset), (48 + x_offset, 16 + y_offset), (0, 0, 220), 3)
+            elif state_rand < 0.40:
+                # 高亮狀態 (外圍畫白框)
+                thickness = random.randint(1, 2)
+                cv2.rectangle(final_img, (0, 0), (63, 63), (240, 240, 240), thickness)
+            
+            # 5. 應用增強 (變暗、變色、雜訊、局部遮擋)
             augmented = transform(image=final_img)['image']
             
             # 6. 存檔
