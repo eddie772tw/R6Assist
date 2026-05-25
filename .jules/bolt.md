@@ -1,3 +1,6 @@
 ## 2024-03-24 - Frame caching optimization in image capture loops
 **Learning:** In real-time screen capture loops (e.g. `monitor.py` and `api.py`), copying the entire full-resolution frame `img.copy()` into memory and then redundantly resizing that previous frame to 64x64 during *every* iteration to check for differences is a severe performance and memory bottleneck.
 **Action:** When comparing current frames against previous frames for motion detection or screen updates, cache the heavily downscaled thumbnail representation (`small_curr`) instead of the full raw image. `cv2.resize` allocates a new numpy array, so passing the reference directly is safe and entirely removes the need for `.copy()`.
+## 2024-05-25 - O(1) Dictionary Lookup for Operator Data
+**Learning:** `TacticalAdvisor` previously used an O(N) linear scan over `self.db.keys()` with `name.lower() == key.lower()` to perform case-insensitive operator name lookups. Since this method can be called frequently (e.g. evaluating recommendations), an O(N) lookup was suboptimal.
+**Action:** When performing repeated case-insensitive lookups on a dictionary, build an O(1) lowercase-to-original key mapping (`_name_map`) during class initialization. Use this map in `get_operator_data()` for constant-time complexity, while preserving a fallback loop for partial substring matches.
