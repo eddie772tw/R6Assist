@@ -49,6 +49,7 @@ class TestTacticalAdvisor(unittest.TestCase):
             "Recruit (ATK)": {"name": "Recruit (ATK)", "role": "Unknown"},
             "Thermite": {"name": "Thermite", "role": "Breach"}
         }
+        advisor._name_map = {k.lower(): k for k in advisor.db.keys()}
         data = advisor.get_operator_data("Ash")
         self.assertEqual(data, {"name": "Ash", "role": "Breach"})
 
@@ -62,6 +63,7 @@ class TestTacticalAdvisor(unittest.TestCase):
             "Recruit (ATK)": {"name": "Recruit (ATK)", "role": "Unknown"},
             "Thermite": {"name": "Thermite", "role": "Breach"}
         }
+        advisor._name_map = {k.lower(): k for k in advisor.db.keys()}
         data = advisor.get_operator_data("ash")
         self.assertEqual(data, {"name": "Ash", "role": "Breach"})
 
@@ -78,6 +80,7 @@ class TestTacticalAdvisor(unittest.TestCase):
             "Recruit (ATK)": {"name": "Recruit (ATK)", "role": "Unknown"},
             "Thermite": {"name": "Thermite", "role": "Breach"}
         }
+        advisor._name_map = {k.lower(): k for k in advisor.db.keys()}
         data = advisor.get_operator_data("Recruit")
         self.assertEqual(data, {"name": "Recruit (ATK)", "role": "Unknown"})
 
@@ -91,6 +94,7 @@ class TestTacticalAdvisor(unittest.TestCase):
             "Recruit (ATK)": {"name": "Recruit (ATK)", "role": "Unknown"},
             "Thermite": {"name": "Thermite", "role": "Breach"}
         }
+        advisor._name_map = {k.lower(): k for k in advisor.db.keys()}
         data = advisor.get_operator_data("NonExistent")
         self.assertIsNone(data)
 
