@@ -44,7 +44,7 @@ app = Flask(__name__)
 cors_regex = re.compile(r"^https?://(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+)(:\d+)?$")
 
 CORS(app, origins=cors_regex)
-socketio = SocketIO(app, cors_allowed_origins='*')
+socketio = SocketIO(app, cors_allowed_origins=cors_regex)
 
 # Create a global state to keep track of the monitoring thread
 monitoring_thread = None
