@@ -7,3 +7,8 @@
 **Vulnerability:** Hardcoded `localhost` bindings restrict cross-device functionality (e.g. tablet usage) on the same LAN.
 **Learning:** To maintain security while supporting local network cross-device access, backend APIs (Flask/SocketIO) must bind to `0.0.0.0` and use regex-based CORS policies strictly matching local IP ranges (localhost, 192.168.x.x, 10.x.x.x, etc.) rather than using wildcard `*`.
 **Prevention:** Use dynamic frontend URLs (`window.location.hostname`) and regex-based backend CORS validation when exposing services to the local area network.
+
+## 2026-06-01 - [HIGH] Enforce strict CORS on WebSocket connections
+**Vulnerability:** The Flask-SocketIO initialization used a wildcard (`*`) for `cors_allowed_origins` while regular Flask routes used a regex for strict cross-device local access, exposing the WebSocket screen capture stream to any origin.
+**Learning:** While Flask-CORS natively supports passing a compiled regex object directly to `origins`, Flask-SocketIO (engineio) requires a callable function for regex evaluation (e.g., `lambda origin: bool(regex.match(origin))`). Passing a regex object directly to Flask-SocketIO results in a TypeError during connection.
+**Prevention:** Always ensure both standard HTTP routes (via Flask-CORS) and WebSocket endpoints (via Flask-SocketIO) share the same strict, regex-based CORS validation when exposing services, ensuring the correct data type is used for each library.
