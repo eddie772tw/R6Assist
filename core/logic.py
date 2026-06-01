@@ -21,6 +21,13 @@ class TacticalAdvisor:
     def __init__(self, db_path="data/op_stats.json"):
         self.db = self._load_db(db_path)
         
+        # ⚡ Bolt: O(1) Pre-computed case-insensitive map
+        self._name_map = {}
+        for key in self.db:
+            self._name_map[key.lower()] = key
+            if "Recruit" in key:
+                self._name_map["recruit"] = key # fallback
+
         # === 權重設定 (可隨時微調) ===
         # 分數越高代表該職能越核心/不可或缺
         self.role_weights = {
@@ -93,15 +100,12 @@ class TacticalAdvisor:
         if name in self.db:
             return self.db[name]
         
-        # 處理 "Recruit" 這種特殊情況
-        # 如果輸入 "Recruit"，我們會回傳 Unknown，因為無法確定攻守
-        # 實戰中 analyzer 應該要判斷 side 傳入 Recruit (ATK) 或 (DEF)
-        # 這裡做一個簡單的 fallback
-        for key in self.db.keys():
-            if name.lower() == key.lower():
-                return self.db[key]
-            if name in key: # e.g. "Recruit" in "Recruit (ATK)"
-                return self.db[key]
+        # ⚡ Bolt: O(1) dictionary lookup instead of O(N) iteration
+        # 處理 "Recruit" 這種特殊情況以及大小寫不一致
+        lower_name = name.lower()
+        if lower_name in self._name_map:
+            return self.db[self._name_map[lower_name]]
+
         return None
 
     def recommend(self, current_team, side="atk", top_n=5):
