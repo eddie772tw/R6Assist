@@ -42,26 +42,24 @@ class TestTacticalAdvisor(unittest.TestCase):
     @patch('core.logic.TacticalAdvisor._load_db')
     def test_get_operator_data_exact_match(self, mock_load_db):
         """Test looking up an operator with an exact name match."""
-        mock_load_db.return_value = {}
-        advisor = TacticalAdvisor("dummy_path")
-        advisor.db = {
+        mock_load_db.return_value = {
             "Ash": {"name": "Ash", "role": "Breach"},
             "Recruit (ATK)": {"name": "Recruit (ATK)", "role": "Unknown"},
             "Thermite": {"name": "Thermite", "role": "Breach"}
         }
+        advisor = TacticalAdvisor("dummy_path")
         data = advisor.get_operator_data("Ash")
         self.assertEqual(data, {"name": "Ash", "role": "Breach"})
 
     @patch('core.logic.TacticalAdvisor._load_db')
     def test_get_operator_data_case_insensitive(self, mock_load_db):
         """Test looking up an operator with different casing."""
-        mock_load_db.return_value = {}
-        advisor = TacticalAdvisor("dummy_path")
-        advisor.db = {
+        mock_load_db.return_value = {
             "Ash": {"name": "Ash", "role": "Breach"},
             "Recruit (ATK)": {"name": "Recruit (ATK)", "role": "Unknown"},
             "Thermite": {"name": "Thermite", "role": "Breach"}
         }
+        advisor = TacticalAdvisor("dummy_path")
         data = advisor.get_operator_data("ash")
         self.assertEqual(data, {"name": "Ash", "role": "Breach"})
 
@@ -71,26 +69,24 @@ class TestTacticalAdvisor(unittest.TestCase):
     @patch('core.logic.TacticalAdvisor._load_db')
     def test_get_operator_data_substring_match(self, mock_load_db):
         """Test looking up an operator using a substring (like 'Recruit')."""
-        mock_load_db.return_value = {}
-        advisor = TacticalAdvisor("dummy_path")
-        advisor.db = {
+        mock_load_db.return_value = {
             "Ash": {"name": "Ash", "role": "Breach"},
             "Recruit (ATK)": {"name": "Recruit (ATK)", "role": "Unknown"},
             "Thermite": {"name": "Thermite", "role": "Breach"}
         }
+        advisor = TacticalAdvisor("dummy_path")
         data = advisor.get_operator_data("Recruit")
         self.assertEqual(data, {"name": "Recruit (ATK)", "role": "Unknown"})
 
     @patch('core.logic.TacticalAdvisor._load_db')
     def test_get_operator_data_not_found(self, mock_load_db):
         """Test looking up an operator that does not exist."""
-        mock_load_db.return_value = {}
-        advisor = TacticalAdvisor("dummy_path")
-        advisor.db = {
+        mock_load_db.return_value = {
             "Ash": {"name": "Ash", "role": "Breach"},
             "Recruit (ATK)": {"name": "Recruit (ATK)", "role": "Unknown"},
             "Thermite": {"name": "Thermite", "role": "Breach"}
         }
+        advisor = TacticalAdvisor("dummy_path")
         data = advisor.get_operator_data("NonExistent")
         self.assertIsNone(data)
 
